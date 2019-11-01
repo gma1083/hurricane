@@ -7,7 +7,7 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'myproject';
 
 // Create a new MongoClient
-const client = new MongoClient(url);
+let client = null;
 
 // Define db
 let db = null;
@@ -23,6 +23,7 @@ let db = null;
 // });
 
 async function myConnect(){
+    client = new MongoClient(url, { useUnifiedTopology: true });
     await client.connect();
     db = client.db(dbName);
     return db;
@@ -31,10 +32,31 @@ async function myConnect(){
 async function myClose(){
     await client.close();
     db = null;
+    client = null;
 }
 
 async function insertOne(document, collection){
     return db.collection(collection).insertOne(document);
+}
+
+async function insertMany(documents, collection){
+    return db.collection(collection).insertMany(documents)
+}
+
+async function deleteOne(filter, collection){
+    return db.collection(collection).deleteOne(filter);
+}
+async function deleteMany(filter, collection){
+    return db.collection(collection).deleteMany(filter);
+}
+
+async function deleteDocument(document, collection){
+    let docId = document._id;
+    return deleteOne({_id : docId}, collection);
+}
+
+async function findOne(query, collection){
+    return db.collection(collection).findOne(query);
 }
 
 
@@ -42,4 +64,9 @@ module.exports = {
     myConnect,
     myClose,
     insertOne,
+    deleteOne,
+    deleteDocument,
+    findOne,
+    insertMany,
+    deleteMany,
 };
