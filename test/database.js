@@ -28,26 +28,67 @@ describe('Jobs Testing', function() {
         // Defines collection for use in testing
         const collection = 'People';
 
-        // Defines a single document for insertOne and deleteOne
         let document = {
-            name : 'Greg',
+            _id : new mongodb.ObjectID(),
+            name: 'Greg',
             age : 27,
-            baller : true
-        };
-
-        // Defines a single document for deleteDocument
-        let document2 = {
-            name : 'Gregory',
-            age : 27,
-            baller : true
+            sex : 'M',
+            tester : true
         };
 
         // Defines a documents array for insertMany and deleteMany
         let documents = [
-            {_id : new mongodb.ObjectID(), name : 'Izzy', age : 27, baller : false, tester : true}, 
-            {_id : new mongodb.ObjectID(), name : 'Cody', age : 27, baller : true, tester : true}, 
-            {_id : new mongodb.ObjectID(), name : 'DT', age : 28, baller : false, tester : true}
+            {_id : new mongodb.ObjectID(), name : 'Gregory', age : 27, sex : 'M', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Izzy', age : 27, sex : 'F', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Cody', age : 27, sex : 'M', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Zoe', age : 26, sex : 'F', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Ian', age : 28, sex : 'M', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Kaelah', age : 28, sex : 'M', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Milad', age : 27, sex : 'M', tester : true},
+            {_id : new mongodb.ObjectID(), name : 'Bruna', age : 26, sex : 'F', tester : true}
         ];
+
+        let testFilter = {
+            tester : true
+        };
+
+        let findQuery = {
+            age : 27
+        };
+
+        let nameFilter = {
+            name : 'Greg'
+        };
+
+        async function setUpOne(){
+            return database.insertOne(document, collection);
+        }
+
+        async function setUpMany(){
+            return database.insertMany(documents, collection);
+        }
+
+        async function cleanUpOne(){
+            return database.deleteOne(nameFilter, collection);
+        }
+
+        async function cleanUpMany(){
+            let manyResult = await database.deleteMany(testFilter, collection);
+            if(manyResult.result.ok !== 1) throw new Error('insertMany cleanup failed');
+            return manyResult;
+        }
+
+        async function setUp(){
+            return Promise.all([setUpOne(), setUpMany()]);
+        }
+
+        // async function setUp(){
+
+        // }
+
+        // async function cleanup(){
+
+        // }
         
 
         // Connects to database before testing
@@ -64,10 +105,10 @@ describe('Jobs Testing', function() {
 
             // Deletes all objects created during insert testing
             after(async function(){
-                let deleteOneResult = await database.deleteOne({name : document.name}, collection);
-                let deleteManyResult = await database.deleteMany({tester : true}, collection);
-                if(deleteOneResult.result.ok !== 1) throw new Error('insertOne cleanup failed');   
-                if(deleteManyResult.result.ok !== 1) throw new Error('insertMany cleanup failed');           
+                let manyResult = await cleanUpMany();
+                if(manyResult.result.ok !== 1) throw new Error('insertMany cleanup failed');
+                let oneResult = await cleanUpOne();
+                if(oneResult.result.ok !== 1) throw new Error('insertOne cleanup failed');          
             });    
 
             // Tests single document insert
@@ -89,40 +130,29 @@ describe('Jobs Testing', function() {
 
             // Creates multiple documents for deletion testing
             before(async function(){       
-                document._id = new mongodb.ObjectID();
-                let insertOneResult = await database.insertOne(document, collection);
-                let insertDocument = await database.insertOne(document2, collection);
-                let insertManyResult = await database.insertMany(documents, collection);
-                if(insertOneResult.insertedCount !== 1) throw new Error('deleteOne setup failed');
-                if(insertDocument.insertedCount !== 1) throw new Error('deleteDocument setup failed');
-                if(insertManyResult.insertedCount !== documents.length) throw new Error('deleteMany setup failed');
+                let manyResult = await setUpMany();
+                if(manyResult.result.ok !== 1) throw new Error('deleteMany cleanup failed');
+                let oneResult = await setUpOne();
+                if(oneResult.result.ok !== 1) throw new Error('deleteOne cleanup failed');
             });
 
             // Tests single document delete
             it('deleteOne Test', async function(){
-                let filter = {
-                    name : document.name
-                };
-    
-                let result = await database.deleteOne(filter, collection);
+                let result = await database.deleteOne(nameFilter, collection);
                 if(result.result.ok !== 1) throw new Error('deleteOne test failed');
             }); 
 
             // Tests multiple document deletes
             it('deleteMany Test', async function(){
-                let filter = {
-                    tester: true
-                };
-
-                let result = await database.deleteMany(filter, collection);
+                let result = await database.deleteMany(testFilter, collection);
                 if(result.result.ok !== 1) throw new Error('deleteMany test failed');
             });
             
             // Tests deleting a single document matching _id from parameter
-            it('deleteDocument Test', async function(){
-                let result = await database.deleteDocument(document2, collection);
-                if(result.result.ok !== 1) throw new Error('deleteDocument test failed');
-            });
+            // it('deleteDocument Test', async function(){
+            //     let result = await database.deleteDocument(document2, collection);
+            //     if(result.result.ok !== 1) throw new Error('deleteDocument test failed');
+            // });
 
         });
 
@@ -131,20 +161,29 @@ describe('Jobs Testing', function() {
 
             // Creates a single document used for find testing
             before(async function() {
-                let result = await database.insertOne(document, collection);
-                if(result.insertedCount !== 1) throw new Error('Find Tests setup failed');
+                let manyResult = await setUpMany();
+                if(manyResult.result.ok !== 1) throw new Error('find setup failed');
+                let oneResult = await setUpOne();
+                if(oneResult.result.ok !== 1) throw new Error('findOne setup failed');
             });
 
             // Deletes the single document used for find testing
             after(async function(){
-                let result = await database.deleteOne({name : document.name}, collection);
-                if(result.result.ok !== 1) throw new Error('Find Tests cleanup failed'); 
+                let manyResult = await cleanUpMany();
+                if(manyResult.result.ok !== 1) throw new Error('find cleanup failed');
+                let oneResult = await cleanUpOne();
+                if(oneResult.result.ok !== 1) throw new Error('findOne cleanup failed'); 
             });
 
             // Tests finding first document meeting criteria
             it('findOne Test', async function(){
-                let result = await database.findOne({name : 'Greg'}, collection);
+                let result = await database.findOne(nameFilter, collection);
                 if(result.name !== document.name) throw new Error('findOne test Failed');
+            });
+
+            it('find Test', async function(){
+                let result = await database.find(findQuery, collection);
+                
             });
         });
 

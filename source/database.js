@@ -40,7 +40,7 @@ async function insertOne(document, collection){
 }
 
 async function insertMany(documents, collection){
-    return db.collection(collection).insertMany(documents)
+    return db.collection(collection).insertMany(documents);
 }
 
 async function deleteOne(filter, collection){
@@ -59,6 +59,10 @@ async function findOne(query, collection){
     return db.collection(collection).findOne(query);
 }
 
+async function find(query, collection){
+    return db.collection(collection).find(query).toArray();
+}
+
 
 module.exports = {
     myConnect,
@@ -69,4 +73,5 @@ module.exports = {
     findOne,
     insertMany,
     deleteMany,
+    find,
 };

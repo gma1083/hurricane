@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+    br
+
+    div(class = "container")
+        table(class = "table table-striped")
+            thead(class = "thead-dark")
+                th(scope = "col") Employee Number
+                th(scope = "col") Employee Name
+                th(scope = "col") Employee Salary
+                each foreman in foremanArray
+                    tr#foreman_list_item   
+                    td #{foreman.employeeNum}
+                    td #{foreman.name}
+                    td #{foreman.salary}
