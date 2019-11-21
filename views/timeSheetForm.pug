@@ -4,7 +4,6 @@ block content
 
     br
 
-
     div(class = "container" )
         form(class = "form", name="timeSheetForm", method="post")
             div(class = "form-group")
@@ -13,9 +12,9 @@ block content
                     input(type="date", class="form-control", name="date")
                 div
                     span.label Name
-                    select(class='form-control', placeholder='Your Name')
+                    select(class='form-control', name='foreman', placeholder='Your Name')
                         option Select Foreman
-                        each foreman in foremanArray
+                        each foreman in foremenArray
                             option #{foreman.name}
                 div.input
                     span.label Job Number   

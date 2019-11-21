@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-var timeSheetController = require('../source/controllers/timeSheetController');
-var foremanController = require('../source/controllers/foremanController');
+var timeSheetFormController = require('../source/controllers/timeSheetFormController');
+var timeSheetsController = require('../source/controllers/timeSheetsController');
+var foremenController = require('../source/controllers/foremenController');
 var createAccountController = require('../source/controllers/createAccountController');
 var loginController = require('../source/controllers/loginController');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -40,24 +42,31 @@ router.post('/login', async function(req, res, next){
   res.redirect('/');
 });
 
-router.get('/timeSheet', async function(req, res, next){
-  let foremanArray = await foremanController.returnForeman();
-  res.render('timeSheet', {title : 'Foreman HOURS Form', foremanArray : foremanArray});
+router.get('/timeSheetForm', async function(req, res, next){
+  let foremenArray = await foremenController.returnForemen();
+  res.render('timeSheetForm', {title : 'Foreman HOURS Form', foremenArray : foremenArray});
 });
 
-router.post('/timeSheet', async function(req, res, next){
+router.post('/timeSheetForm', async function(req, res, next){
   try {
-    let result = await timeSheetController.insertTime(req.body);
+    console.log(JSON.stringify(req.body, null, 2));
+    let result = await timeSheetFormController.insertTime(req.body);
+    console.log(result);
   }
   catch(error) {
-    
+    throw error;
   }
     res.redirect('/');
 });
 
-router.get('/foreman', async function(req, res, next){
-  let foremanArray = await foremanController.returnForeman();
-  res.render('foreman', {title : 'Foreman List', foremanArray : foremanArray});
+router.get('/foremen', async function(req, res, next){
+  let foremenArray = await foremenController.returnForemen();
+  res.render('foremen', {title : 'Foreman List', foremenArray : foremenArray});
+});
+
+router.get('/timeSheets', async function(req, res, next){
+  let timeSheetsArray = await timeSheetsController.returnTimeSheets();
+  res.render('timeSheets', {title : 'Time Sheets List', timeSheetsArray : timeSheetsArray});
 });
 
 router.get('/Jobs', function(req, res, next){

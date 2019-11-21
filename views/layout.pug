@@ -1,6 +1,12 @@
 doctype html
+
+
 html
   head
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     title= title
     //- link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
@@ -8,29 +14,24 @@ html
     h1= title
     nav(class="navbar navbar-expand-lg navbar-light bg-light")
       a(class="navbar-brand" href="/") Home
+      button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
       div(class="collapse navbar-collapse" id="navbarNav")
-        ul(class="navbar-nav")
-          li(class="nav-item")
-            a(class="nav-link" href="/jobs") Jobs
-          li(class="nav-item")
-            a(class="nav-link" href="/timeSheet") Time Sheets
-          li(class="nav-item")
-            a(class="nav-link" href="/foreman") Foreman
-          li(class="nav-item")
-            a(class="nav-link" href="/createAccount") Create Account
-          li(class="nav-item")
-            a(class="nav-link" href="/login") Login
-
-
-
-
-
-
-
-
-    //- a(class='btn btn-primary' href='/') Home 
-    //- br
-    //- a(class='button' href='/timeSheet') Time Sheets
+        ul(class="navbar-nav mr-auto")
+          li(class='nav-item dropdown')
+            a(class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Collections
+            div(class="dropdown-menu" aria-labelledby="navbarDropdown")
+              a(class="dropdown-item" href="/foremen") Foremen
+              a(class="dropdown-item" href="/timeSheets") Time Sheets
+              a(class="dropdown-item" href="/jobs") Jobs
+          li(class='nav-item dropdown')
+            a(class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Forms
+            div(class="dropdown-menu" aria-labelledby="navbarDropdown")
+              a(class="dropdown-item" href="/timeSheetForm") Time Sheets Form
+          li(class='nav-item dropdown')
+            a(class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Account
+            div(class="dropdown-menu" aria-labelledby="navbarDropdown")
+              a(class="dropdown-item" href="/createAccount") Create Account
+              a(class="dropdown-item" href="/login") Login
 
 
     block content
