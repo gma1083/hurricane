@@ -7,6 +7,7 @@ class Timesheet{
         this._id = db.createMongoID();
         this.date = new Date();
         this.employeeID = timesheet.employeeID;
+        this.jobNumber = timesheet.jobNumber;
         this.jobID = timesheet.jobID ? timesheet.jobID : null;
         this.estCrewSize = timesheet.estCrewSize;
         this.estCrewHours = timesheet.estCrewHours;
@@ -19,23 +20,30 @@ class Timesheet{
         this.notes = timesheet.notes;
     }
 
-    save() {
+    async save() {
         return db.insertOne(this, collectionName);
     }
 
-    delete() {
+    async delete() {
+        await db.updateOne({_id : this.jobID}, { $pull: { timsheets : this.jobID} }, 'Jobs');
         return db.deleteOne({_id : this._id}, collectionName);
     }
 
-    validate() {
+    async validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('timeSheetID is not valid');
-        if(!(this.date instanceof Date)) throw new Error('Date is not valid');
-        if(!(this.employeeID instanceof mongodb.ObjectID)) throw new Error('EmployeeID is not valid');
-        // if(typeof(this.employee) !== 'string') throw new Error('Street Name is not valid');
-        // if(typeof(this.city) !== 'string') throw new Error('City is not valid');
-        // if(typeof(this.state) !== 'string') throw new Error('State is not valid');
-        // if(typeof(this.zip) !== 'number') throw new Error('Zip is not valid');
-        // if(typeof(this.county) !== 'string') throw new Error('Country is not valid');
+        if(!(this.date instanceof Date)) throw new Error('date is not valid');
+        if(!(this.employeeID instanceof mongodb.ObjectID)) throw new Error('employeeID is not valid');
+        if(typeof(this.jobNumber) !== 'number') throw new Error('jobNumber is not valid');
+        if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('jobID is not valid');
+        if(typeof(this.estCrewSize) !== 'number') throw new Error('estCrewSize is not valid');
+        if(typeof(this.estCrewHours) !== 'number') throw new Error('estCrewHours is not valid');
+        if(typeof(this.tmCrewSize) !== 'number') throw new Error('tmCrewHours is not valid');
+        if(typeof(this.tmcrewHours) !== 'number') throw new Error('tmCrewHours is not valid');
+        if(typeof(this.lunchTaken) !== 'boolean') throw new Error('lunchTaken is not valid');
+        if(typeof(this.jobFinished) !== 'boolean') throw new Error('jobFinished is not valid');
+        if(typeof(this.offHauled) !== 'boolean') throw new Error('offHauled is not valid');
+        if(typeof(this.yardsHauled) !== 'number') throw new Error('yardsHauled is not valid');
+        if(typeof(this.notes) !== 'string') throw new Error('notes is not valid');
     }
 
     
