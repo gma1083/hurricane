@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const mongodb = require('mongodb');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -11,16 +12,6 @@ let client = null;
 
 // Define db
 let db = null;
-
-
-// Use connect method to connect to the Server
-// client.connect(function(err) {
-//   console.log("Connected successfully to server");
-
-//   const db = client.db(dbName);
-
-//   client.close();
-// });
 
 async function myConnect(){
     client = new MongoClient(url, { useUnifiedTopology: true });
@@ -35,21 +26,32 @@ async function myClose(){
     client = null;
 }
 
+// Database method to create a new MongoDB ObjectID 
+function createMongoID(){
+    return new mongodb.ObjectID();
+}
+
+// Database method to insert a single document into a specified collection 
 async function insertOne(document, collection){
     return db.collection(collection).insertOne(document);
 }
 
+// Database method to insert multiple document into a specified collection 
 async function insertMany(documents, collection){
     return db.collection(collection).insertMany(documents);
 }
 
+// Database method to delete a single document from a specified collection
 async function deleteOne(filter, collection){
     return db.collection(collection).deleteOne(filter);
 }
+
+// Database method to delete multiple document from a specified collection
 async function deleteMany(filter, collection){
     return db.collection(collection).deleteMany(filter);
 }
 
+// Database method to delete a specific document into a specified collection
 async function deleteDocument(document, collection){
     let docId = document._id;
     return deleteOne({_id : docId}, collection);
@@ -63,8 +65,16 @@ async function find(query, collection){
     return db.collection(collection).find(query).toArray();
 }
 
+async function updateOne(query, update, collection){
+    return db.collection(collection).updateOne(query, update);
+}
+
+async function updateMany(query, update, collection){
+    return db.collection(collection).updateMany(query, update);
+}
 
 module.exports = {
+    createMongoID,
     myConnect,
     myClose,
     insertOne,
@@ -74,4 +84,6 @@ module.exports = {
     insertMany,
     deleteMany,
     find,
+    updateOne,
+    updateMany,
 };

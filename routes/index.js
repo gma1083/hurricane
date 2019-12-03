@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const https = require('https');
 
 var timeSheetFormController = require('../source/controllers/timeSheetFormController');
 var timeSheetsController = require('../source/controllers/timeSheetsController');
@@ -71,6 +72,17 @@ router.get('/timeSheets', async function(req, res, next){
 
 router.get('/Jobs', function(req, res, next){
   res.render('jobs', {title : 'Jobs'});
+});
+
+router.get('/api/foremen', async (req, res, next) => {
+  let foremenArray = await foremenController.returnForemen();
+  res.json(foremenArray);
+});
+
+router.get('/reddit', async (req, res, next) => {
+  let httpsResult = await https.get("https://www.reddit.com/r/news/new.json?limit=1");
+  let result = {data : JSON.stringify(httpsResult, null, 2)};
+  res.render('reddit', result);
 });
 
 module.exports = router;

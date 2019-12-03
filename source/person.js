@@ -1,40 +1,20 @@
-const db = require('/database.js');
-const collection = 'People';
+const db = require('./database.js');
 
 class Person{
     constructor(firstName, lastName, birthDate){
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._birthDate = birthDate;
+        this._id = db.createMongoID();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
     }
 
-    get firstName() {
-        return this._firstName;
-    }
-
-    set firstName(newFirstName) {
-        this._firstName = newFirstName;
-    }
-
-    get lastName() {
-        return this._lastName;
-    }
-
-    set lastName(newLastName) {
-        this._lastName = newLastName;
-    }
-
-    get birthDate() {
-        return this._birthDate;
-    }
-
-    set birthDate(newBirthDate) {
-        this._birthDate = newBirthDate;
-    }
 
     save() {
-        
-        return db.insertOne(this, collection);
+        throw new Error('Cannot save a Person directly');
+    }
+
+    delete() {
+        throw new Error('Cannot delete a Person directly');
     }
 
 }
