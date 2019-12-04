@@ -30,6 +30,16 @@ class Timesheet {
         return db.deleteOne({_id : this._id}, collectionName);
     }
 
+    /**********************************************************
+    //  Method name : validate()
+    //
+    //  Parameters : none
+    //
+    //  Returns : undefined
+    //
+    //  Throws : Unique error for each property that is set to an invalid type
+    //
+    **********************************************************/
     validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('_id is not valid');
         if(!(this.date instanceof Date)) throw new Error('date is not valid');
