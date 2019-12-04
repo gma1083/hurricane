@@ -1,7 +1,8 @@
 const db = require('./database');
 const collectionName = 'TimeSheets';
+const mongodb = require('mongodb');
 
-class Timesheet{
+class Timesheet {
 
     constructor(timesheet){
         this._id = db.createMongoID();
@@ -30,15 +31,15 @@ class Timesheet{
     }
 
     async validate() {
-        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('timeSheetID is not valid');
+        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('_id is not valid');
         if(!(this.date instanceof Date)) throw new Error('date is not valid');
         if(!(this.employeeID instanceof mongodb.ObjectID)) throw new Error('employeeID is not valid');
         if(typeof(this.jobNumber) !== 'number') throw new Error('jobNumber is not valid');
         if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('jobID is not valid');
         if(typeof(this.estCrewSize) !== 'number') throw new Error('estCrewSize is not valid');
         if(typeof(this.estCrewHours) !== 'number') throw new Error('estCrewHours is not valid');
-        if(typeof(this.tmCrewSize) !== 'number') throw new Error('tmCrewHours is not valid');
-        if(typeof(this.tmcrewHours) !== 'number') throw new Error('tmCrewHours is not valid');
+        if(typeof(this.tmCrewSize) !== 'number') throw new Error('tmCrewSize is not valid');
+        if(typeof(this.tmCrewHours) !== 'number') throw new Error('tmCrewHours is not valid');
         if(typeof(this.lunchTaken) !== 'boolean') throw new Error('lunchTaken is not valid');
         if(typeof(this.jobFinished) !== 'boolean') throw new Error('jobFinished is not valid');
         if(typeof(this.offHauled) !== 'boolean') throw new Error('offHauled is not valid');

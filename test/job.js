@@ -15,7 +15,7 @@ describe('Job.js Tests:', function(){
     });
 
 
-    describe('Job Constructor Tests:', async function(){
+    describe('Job Constructor Tests:', function(){
       
         it('Job Constructor - Happy Path', async function(){
         
@@ -38,7 +38,7 @@ describe('Job.js Tests:', function(){
         });    
     });
 
-    describe('Job Validation Tests:', async function(){
+    describe('Job Validation Tests:', function(){
 
         it('Job Validation - Happy Path', async function(){
            
@@ -51,7 +51,7 @@ describe('Job.js Tests:', function(){
             };
 
             let job = new Job(jobObject);
-            job.validate();
+            await job.validate();
 
         });
 
