@@ -46,10 +46,12 @@ describe('Timesheet.js Tests:', function(){
             timesheet._id = 'Not Valid ID';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - _id');
             }
             catch(error){
                 if(error.message !== '_id is not valid') throw new Error('timesheet ID validation failed');
             }
+            
 
         });
 
@@ -59,9 +61,10 @@ describe('Timesheet.js Tests:', function(){
             timesheet.date = 'Not Valid Date';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - date');
             }
             catch(error){
-                if(error.message !== 'date is not valid') throw new Error('timesheet date validation failed') ;
+                if(error.message !== 'date is not valid') throw new Error('timesheet date validation failed');
             }
 
         });
@@ -72,6 +75,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.employeeID = 'Not Valid ID';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - employeeID');
             }
             catch(error){
                 if(error.message !== 'employeeID is not valid') throw new Error('timesheet employeeID validation failed') ;
@@ -85,6 +89,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.jobNumber = 'Not Valid Number';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - jobNumber');
             }
             catch(error){
                 if(error.message !== 'jobNumber is not valid') throw new Error('timesheet jobNumber validation failed') ;
@@ -98,6 +103,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.jobID = 'Not Valid ID';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - jobID');
             }
             catch(error){
                 if(error.message !== 'jobID is not valid') throw new Error('timesheet jobID validation failed') ;
@@ -111,6 +117,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.estCrewSize = 'Not Valid Number';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - estCrewSize');
             }
             catch(error){
                 if(error.message !== 'estCrewSize is not valid') throw new Error('timesheet estCrewSize validation failed') ;
@@ -124,6 +131,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.estCrewHours = 'Not Valid Number';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - estCrewHours');
             }
             catch(error){
                 if(error.message !== 'estCrewHours is not valid') throw new Error('timesheet estCrewHours validation failed') ;
@@ -137,6 +145,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.tmCrewSize = 'Not Valid Number';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - tmCrewSize');
             }
             catch(error){
                 if(error.message !== 'tmCrewSize is not valid') throw new Error('timesheet tmCrewSize validation failed') ;
@@ -150,6 +159,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.tmCrewHours = 'Not Valid Number';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - tmCrewHours');
             }
             catch(error){
                 if(error.message !== 'tmCrewHours is not valid') throw new Error('timesheet tmCrewHours validation failed') ;
@@ -163,6 +173,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.lunchTaken = 'Not Valid Boolean';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - lunchTaken');
             }
             catch(error){
                 if(error.message !== 'lunchTaken is not valid') throw new Error('timesheet lunchTaken validation failed') ;
@@ -176,6 +187,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.jobFinished = 'Not Valid Boolean';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - jobFinished');
             }
             catch(error){
                 if(error.message !== 'jobFinished is not valid') throw new Error('timesheet jobFinished validation failed') ;
@@ -189,6 +201,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.offHauled = 'Not Valid Boolean';
             try{
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - offHauled');
             }
             catch(error){
                 if(error.message !== 'offHauled is not valid') throw new Error('timesheet offhauled validation failed') ;
@@ -201,6 +214,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.yardsHauled = 'Not Valid Number';
             try {
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - yardsHauled');
             }
             catch(error) {
                 if (error.message !== 'yardsHauled is not valid') throw new Error('timesheet yardsHauled validation failed') ;
@@ -212,6 +226,7 @@ describe('Timesheet.js Tests:', function(){
             timesheet.notes =  true;
             try {
                 timesheet.validate();
+                throw new Error('Error expected but not thrown in Timesheet Validation - notes');
             }
             catch(error) {
                 if (error.message !== 'notes is not valid') throw new Error('timesheet notes validation failed') ;
