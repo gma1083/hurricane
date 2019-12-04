@@ -30,7 +30,7 @@ class Timesheet {
         return db.deleteOne({_id : this._id}, collectionName);
     }
 
-    async validate() {
+    validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('_id is not valid');
         if(!(this.date instanceof Date)) throw new Error('date is not valid');
         if(!(this.employeeID instanceof mongodb.ObjectID)) throw new Error('employeeID is not valid');

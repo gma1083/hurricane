@@ -15,7 +15,7 @@ describe('Job.js Tests:', function(){
     });
 
 
-    describe('Job Constructor Tests:', function(){
+    describe('Job Constructor Tests:', async function(){
       
         it('Job Constructor - Happy Path', async function(){
         
