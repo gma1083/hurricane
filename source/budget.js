@@ -2,9 +2,9 @@ const db = require('./database');
 const collectionName = 'Budgets';
 const mongodb = require('mongodb');
 
-class Budget{
+class Budget {
 
-    constructor(budget){
+    constructor(budget) {
         this._id = db.createMongoID();
         this.jobNumber = budget.jobNumber;
         this.jobID = budget.jobID;
@@ -14,23 +14,23 @@ class Budget{
         this.expectedExpenses = budget.expectedExpenses;
     }
 
-    async save(){
+    async save() {
         await this.validate();
         return db.insertOne(this, collectionName);
     }
 
-    async delete(){
+    async delete() {
         await db.updateOne({_id : this.jobID}, { $set: { budgetID : null}}, 'Jobs');
         return db.deleteOne({_id : this._id}, collectionName);
     }
 
-    static async delete(budgetID){
+    static async delete(budgetID) {
         let budget = await db.findOne({_id : budgetID}, collectionName);
         await db.updateOne({_id : budget.jobID}, { $set: { budgetID : null} }, 'Jobs');
         return db.deleteOne({_id : budgetID}, collectionName);
     }
 
-    async validate(){
+    async validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('Budget ID is not valid');
         if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
         if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('Budget jobID is not valid');
@@ -38,7 +38,6 @@ class Budget{
         if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedHours is not valid');
         if(typeof(this.expectedDump) !== 'number') throw new Error('Budget expectedDump is not valid');
         if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedExpenses is not valid');
-
     }
 
 }

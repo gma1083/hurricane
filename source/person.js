@@ -1,13 +1,12 @@
 const db = require('./database.js');
 
-class Person{
+class Person {
     constructor(firstName, lastName, birthDate){
         this._id = db.createMongoID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
     }
-
 
     save() {
         throw new Error('Cannot save a Person directly');

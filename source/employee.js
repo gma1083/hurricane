@@ -2,7 +2,7 @@ const db = require('./database.js');
 const Person = require('/person.js');
 const collection = 'employee';
 
-class Employee extends Person{
+class Employee extends Person {
 
     constructor(firstName, lastName, birthDate, position, wage, employeeNumber, hireDate){
         super(firstName, lastName, birthDate);
@@ -20,6 +20,7 @@ class Employee extends Person{
     delete() {
         return db.deleteOne({_id : this._id}, collection);
     }
+    
 }
 
 module.exports = Employee;

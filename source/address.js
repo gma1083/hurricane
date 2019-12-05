@@ -2,9 +2,9 @@ const db = require('./database');
 const collectionName = 'Addresses';
 const mongodb = require('mongodb');
 
-class Address{
+class Address {
 
-    constructor(streetNumber, streetName, city, state, zip, country){
+    constructor(streetNumber, streetName, city, state, zip, country) {
         this._id = db.createMongoID(); 
         this.streetNumber = streetNumber;
         this.streetName = streetName;
@@ -30,10 +30,8 @@ class Address{
         if(typeof(this.city) !== 'string') throw new Error('City is not valid');
         if(typeof(this.state) !== 'string') throw new Error('State is not valid');
         if(typeof(this.zip) !== 'number') throw new Error('Zip is not valid');
-        if(typeof(this.county) !== 'string') throw new Error('Country is not valid');
-        
+        if(typeof(this.county) !== 'string') throw new Error('Country is not valid');  
     }
-
     
 }
 

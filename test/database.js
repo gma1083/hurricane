@@ -3,10 +3,10 @@ const db = require('../source/database');
 
 describe('Database.js Tests:', function() {
 
-    describe('Database Opening and Closing Tests:', function(){
+    describe('Database Opening and Closing Tests:', function() {
      
         // Tests connecting to the db
-        it('Database - myOpen', async function(){
+        it('Database - myOpen', async function() {
             let dbConnected = await db.myConnect();
             if(dbConnected === null) {
                 throw new Error('First Error');
@@ -17,13 +17,13 @@ describe('Database.js Tests:', function() {
         });
 
         // Tests closing the connection to the db
-        it('Database - myClose', async function(){
+        it('Database - myClose', async function() {
             await db.myClose();
         });
 
     });
 
-    describe('Database CRUD Tests:', function(){
+    describe('Database CRUD Tests:', function() {
 
         // Defines collection for use in testing
         const collection = 'TestPeople';
@@ -60,25 +60,25 @@ describe('Database.js Tests:', function() {
             name : 'Greg'
         };
 
-        async function setUpOne(){
+        async function setUpOne() {
             return db.insertOne(document, collection);
         }
 
-        async function setUpMany(){
+        async function setUpMany() {
             return db.insertMany(documents, collection);
         }
 
-        async function cleanUpOne(){
+        async function cleanUpOne() {
             return db.deleteOne(nameFilter, collection);
         }
 
-        async function cleanUpMany(){
+        async function cleanUpMany() {
             let manyResult = await db.deleteMany({}, collection);
             if(manyResult.result.ok !== 1) throw new Error('insertMany cleanup failed');
             return manyResult;
         }
 
-        async function setUp(){
+        async function setUp() {
             return Promise.all([setUpOne(), setUpMany()]);
         }
 
@@ -97,14 +97,14 @@ describe('Database.js Tests:', function() {
         });
 
         // Closes db connection after testing
-        after(async function(){
+        after(async function() {
             await db.myClose();
         });
 
-        describe('Database - Insert Tests:', function(){
+        describe('Database - Insert Tests:', function() {
 
             // Deletes all objects created during insert testing
-            after(async function(){
+            after(async function() {
                 let manyResult = await cleanUpMany();
                 if(manyResult.result.ok !== 1) throw new Error('insertMany cleanup failed');
                 let oneResult = await cleanUpOne();
@@ -112,13 +112,13 @@ describe('Database.js Tests:', function() {
             });    
 
             // Tests single document insert
-            it('Database - insertOne()', async function(){    
+            it('Database - insertOne()', async function() {    
                 let result = await db.insertOne(document, collection);
                 if(result.insertedCount !== 1) throw new Error('insertOne test failed');
             });      
 
             // Tests multiple document insert
-            it('Database - insertMany()', async function(){
+            it('Database - insertMany()', async function() {
                 let result = await db.insertMany(documents, collection);
                 if(result.insertedCount !== documents.length) throw new Error('insertMany test failed');
             });
@@ -126,10 +126,10 @@ describe('Database.js Tests:', function() {
         });
 
 
-        describe('Database - Delete Tests:', function(){
+        describe('Database - Delete Tests:', function() {
 
             // Creates multiple documents for deletion testing
-            before(async function(){       
+            before(async function() {       
                 let manyResult = await setUpMany();
                 if(manyResult.result.ok !== 1) throw new Error('deleteMany cleanup failed');
                 let oneResult = await setUpOne();
@@ -137,13 +137,13 @@ describe('Database.js Tests:', function() {
             });
 
             // Tests single document delete
-            it('Database - deleteOne()', async function(){
+            it('Database - deleteOne()', async function() {
                 let result = await db.deleteOne(nameFilter, collection);
                 if(result.result.ok !== 1) throw new Error('deleteOne test failed');
             }); 
 
             // Tests multiple document deletes
-            it('Database - deleteMany()', async function(){
+            it('Database - deleteMany()', async function() {
                 let result = await db.deleteMany(testFilter, collection);
                 if(result.result.ok !== 1) throw new Error('deleteMany test failed');
             });
@@ -156,8 +156,7 @@ describe('Database.js Tests:', function() {
 
         });
 
-
-        describe('Database Find Tests:', function(){
+        describe('Database Find Tests:', function() {
 
             // Creates a single document used for find testing
             before(async function() {
@@ -168,7 +167,7 @@ describe('Database.js Tests:', function() {
             });
 
             // Deletes the single document used for find testing
-            after(async function(){
+            after(async function() {
                 let manyResult = await cleanUpMany();
                 if(manyResult.result.ok !== 1) throw new Error('find cleanup failed');
                 let oneResult = await cleanUpOne();
@@ -176,19 +175,19 @@ describe('Database.js Tests:', function() {
             });
 
             // Tests finding first document meeting criteria
-            it('Database - findOne()', async function(){
+            it('Database - findOne()', async function() {
                 let result = await db.findOne(nameFilter, collection);
                 if(result.name !== document.name) throw new Error('findOne test Failed');
             });
 
-            it('Database - find()', async function(){
+            it('Database - find()', async function() {
                 let result = await db.find(findQuery, collection);
                 
             });
         });
 
 
-        describe('Database Update Tests:', function(){
+        describe('Database Update Tests:', function() {
 
             updateOne = { $set: { name : "Batman"}};
 
@@ -204,7 +203,7 @@ describe('Database.js Tests:', function() {
             });
 
             // Deletes the single document used for update testing
-            after(async function(){
+            after(async function() {
                 let manyResult = await cleanUpMany();
                 if(manyResult.result.ok !== 1) throw new Error('updateMany cleanup failed');
             });
@@ -219,13 +218,7 @@ describe('Database.js Tests:', function() {
                 let updateManyResult = await db.updateMany(testFilter, updateMany, collection);
                 if(updateManyResult.result.ok !== 1) throw new Error('updateMany test result.ok != 1');
             });
-
-
         });
-
-
-
-
     });
 
 });

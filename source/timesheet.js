@@ -4,7 +4,7 @@ const mongodb = require('mongodb');
 
 class Timesheet {
 
-    constructor(timesheet){
+    constructor(timesheet) {
         this._id = db.createMongoID();
         this.date = new Date();
         this.employeeID = timesheet.employeeID;

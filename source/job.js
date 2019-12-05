@@ -2,7 +2,7 @@ const db = require('./database');
 const collectionName = 'Jobs';
 const mongodb = require('mongodb');
 
-class Job{
+class Job {
 
     constructor(job) {
         this._id = job._id ? job._id : db.createMongoID();
@@ -15,12 +15,12 @@ class Job{
         this.incomes = [];
     }
 
-    async save(){
+    async save() {
         await this.validate();
         return db.insertOne(this, collectionName);
     }
 
-    async delete(){
+    async delete() {
 
         let deleteResults = [];
 
@@ -47,7 +47,7 @@ class Job{
         return deleteResults;
     }
 
-    async validate(){
+    async validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('JobID is not valid');
         if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
         if(!(this.addressID instanceof mongodb.ObjectID) && (this.addressID !== null)) throw new Error('Address is not valid');
@@ -55,7 +55,7 @@ class Job{
         if(!(this.budgetID instanceof mongodb.ObjectID) && (this.budgetID !== null)) throw new Error('Budget is not valid');
     }
 
-    async deleteBudget(){
+    async deleteBudget() {
         if(this.budgetID !== null){
             let budget = await db.findOne({_id : this.budgetID}, 'Budgets');
             let deleteBudgetPromise = await budget.delete();
@@ -64,7 +64,7 @@ class Job{
         return null;
     }
 
-    async unlinkTimesheets(){
+    async unlinkTimesheets() {
         if(this.timeSheets.length !== 0){
             let unlinkTimesheetsResult = db.updateMany({_id : {$in : this.timesheets}}, { $set: { jobId : null} }, 'Timesheets');
             return unlinkTimesheetsResult;
@@ -72,7 +72,7 @@ class Job{
         return null;
     }
 
-    async unlinkExpenses(){
+    async unlinkExpenses() {
         if(this.expenses !== null){
             let unlinkExpensesResult = db.updateMany({_id : {$in : this.expenses}}, { $set: { jobId : null} }, 'Expenses');
             return unlinkExpensesResult;
@@ -80,7 +80,7 @@ class Job{
         return null;
     }
 
-    async unlinkIncomes(){
+    async unlinkIncomes() {
         if(this.incomes !== null){
             let unlinkIncomesResult = db.updateMany({_id : {$in : this.incomes}}, { $set: { jobId : null} }, 'Incomes');
             return unlinkIncomesResult;

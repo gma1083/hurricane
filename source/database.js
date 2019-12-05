@@ -13,63 +13,63 @@ let client = null;
 // Define db
 let db = null;
 
-async function myConnect(){
+async function myConnect() {
     client = new MongoClient(url, { useUnifiedTopology: true });
     await client.connect();
     db = client.db(dbName);
     return db;
 }
 
-async function myClose(){
+async function myClose() {
     await client.close();
     db = null;
     client = null;
 }
 
 // Database method to create a new MongoDB ObjectID 
-function createMongoID(){
+function createMongoID() {
     return new mongodb.ObjectID();
 }
 
 // Database method to insert a single document into a specified collection 
-async function insertOne(document, collection){
+async function insertOne(document, collection) {
     return db.collection(collection).insertOne(document);
 }
 
 // Database method to insert multiple document into a specified collection 
-async function insertMany(documents, collection){
+async function insertMany(documents, collection) {
     return db.collection(collection).insertMany(documents);
 }
 
 // Database method to delete a single document from a specified collection
-async function deleteOne(filter, collection){
+async function deleteOne(filter, collection) {
     return db.collection(collection).deleteOne(filter);
 }
 
 // Database method to delete multiple document from a specified collection
-async function deleteMany(filter, collection){
+async function deleteMany(filter, collection) {
     return db.collection(collection).deleteMany(filter);
 }
 
 // Database method to delete a specific document into a specified collection
-async function deleteDocument(document, collection){
+async function deleteDocument(document, collection) {
     let docId = document._id;
     return deleteOne({_id : docId}, collection);
 }
 
-async function findOne(query, collection){
+async function findOne(query, collection) {
     return db.collection(collection).findOne(query);
 }
 
-async function find(query, collection){
+async function find(query, collection) {
     return db.collection(collection).find(query).toArray();
 }
 
-async function updateOne(query, update, collection){
+async function updateOne(query, update, collection) {
     return db.collection(collection).updateOne(query, update);
 }
 
-async function updateMany(query, update, collection){
+async function updateMany(query, update, collection) {
     return db.collection(collection).updateMany(query, update);
 }
 
