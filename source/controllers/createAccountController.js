@@ -9,7 +9,7 @@ async function createAccount(newAccount) {
     return database.insertOne(newAccount, collection);
 }
 
-async function returnAccounts(){
+async function returnAccounts() {
     return database.find({}, 'Accounts');
 }
 

@@ -2,19 +2,19 @@ const db = require('../source/database');
 const Timesheet = require('../source/timesheet');
 const collectionName = 'Timesheets';
 
-describe('Timesheet.js Tests:', function() {
+describe('Timesheet.js Tests:', () => {
     
     // Connects to database before testing
-    before(async function() {
+    before(async () => {
         await db.myConnect();
     });
 
     // Closes database connection after testing
-    after(async function() {
+    after(async () => {
         await db.myClose();
     });
 
-    describe('Timesheet Validation Tests:', function() {
+    describe('Timesheet Validation Tests:', () => {
 
         let timesheetValues = {
             _id : db.createMongoID(),
@@ -33,14 +33,14 @@ describe('Timesheet.js Tests:', function() {
             notes : 'Test Notes'
         };
 
-        it('Timesheet Validation - Happy Path', function() {
+        it('Timesheet Validation - Happy Path', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.validate();
 
         });
 
-        it('Timesheet Validation - _id', function() {
+        it('Timesheet Validation - _id', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet._id = 'Not Valid ID';
@@ -55,7 +55,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - date', function() {
+        it('Timesheet Validation - date', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.date = 'Not Valid Date';
@@ -69,7 +69,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - employeeID', function() {
+        it('Timesheet Validation - employeeID', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.employeeID = 'Not Valid ID';
@@ -83,7 +83,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - jobNumber', function() {
+        it('Timesheet Validation - jobNumber', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.jobNumber = 'Not Valid Number';
@@ -97,7 +97,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - jobID', function() {
+        it('Timesheet Validation - jobID', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.jobID = 'Not Valid ID';
@@ -111,7 +111,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - estCrewSize', function() {
+        it('Timesheet Validation - estCrewSize', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.estCrewSize = 'Not Valid Number';
@@ -125,7 +125,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - estCrewHours', function() {
+        it('Timesheet Validation - estCrewHours', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.estCrewHours = 'Not Valid Number';
@@ -139,7 +139,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - tmCrewSize', function() {
+        it('Timesheet Validation - tmCrewSize', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.tmCrewSize = 'Not Valid Number';
@@ -153,7 +153,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - tmCrewHours', function() {
+        it('Timesheet Validation - tmCrewHours', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.tmCrewHours = 'Not Valid Number';
@@ -167,7 +167,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - lunchTaken', function() {
+        it('Timesheet Validation - lunchTaken', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.lunchTaken = 'Not Valid Boolean';
@@ -181,7 +181,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - jobFinished', function() {
+        it('Timesheet Validation - jobFinished', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.jobFinished = 'Not Valid Boolean';
@@ -195,7 +195,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - offHauled', function() {
+        it('Timesheet Validation - offHauled', () => {
 
             let timesheet = new Timesheet(timesheetValues);
             timesheet.offHauled = 'Not Valid Boolean';
@@ -209,7 +209,7 @@ describe('Timesheet.js Tests:', function() {
 
         });
 
-        it('Timesheet Validation - yardsHauled', function() {
+        it('Timesheet Validation - yardsHauled', () => {
             let timesheet = new Timesheet(timesheetValues);
             timesheet.yardsHauled = 'Not Valid Number';
             try {
@@ -221,7 +221,7 @@ describe('Timesheet.js Tests:', function() {
             }
         });
 
-        it('Timesheet Validation - notes', function() {
+        it('Timesheet Validation - notes', () => {
             let timesheet = new Timesheet(timesheetValues);
             timesheet.notes =  true;
             try {

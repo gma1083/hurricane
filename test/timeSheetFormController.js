@@ -1,20 +1,20 @@
 const db = require('../source/database');
 const timeSheetFormController = require('../source/controllers/timeSheetFormController');
 
-describe('TimeSheetFormController Tests:', function() {
+describe('TimeSheetFormController Tests:', () => {
 
         // Connects to database before testing
-        before(async function() {
+        before(async () => {
             await db.myConnect();
         });
 
         // Closes database connection after testing
-        after(async function() {
+        after(async () => {
             await db.myClose();
         });
 
 
-    it('insertTime Test Foreman in DB', async function() {
+    it('insertTime Test Foreman in DB', async () => {
         let timeSheet = {
             date : new Date('2019-11-06'),
             foreman : 'Jose Ruiz'
@@ -23,7 +23,7 @@ describe('TimeSheetFormController Tests:', function() {
         if(result.result.ok !== 1) throw new Error('insert Time failed');
     });
 
-    it('insertTime Test Foreman NOT in DB', async function() {
+    it('insertTime Test Foreman NOT in DB', async () => {
         let timeSheet = {
             _id : db.createMongoID(),
             name : 'Gregor', 

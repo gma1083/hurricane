@@ -1,7 +1,7 @@
 const database = require('../database');
 const collection = 'TimeSheets';
 
-async function returnTimeSheets(){
+async function returnTimeSheets() {
     return database.find({}, collection);
 }
 

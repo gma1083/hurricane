@@ -3,7 +3,7 @@ const database = require('../source/database');
 const person = require('../source/person');
 const collection = 'People';
 
-describe('People Testing: ', function() {
+describe('People Testing: ', () => {
 
 
 });

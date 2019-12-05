@@ -2,22 +2,22 @@ const db = require('../source/database');
 const Job = require('../source/job');
 const collection = 'Jobs';
 
-describe('Job.js Tests:', function() {
+describe('Job.js Tests:', () => {
 
     // Connects to database before testing
-    before(async function() {
+    before(async () => {
         await db.myConnect();
     });
 
     // Closes database connection after testing
-    after(async function(){
+    after(async () => {
         await db.myClose();
     });
 
 
-    describe('Job Constructor Tests:', function() {
+    describe('Job Constructor Tests:', () => {
       
-        it('Job Constructor - Happy Path', function() {
+        it('Job Constructor - Happy Path', () => {
         
             let jobObject = {
                 _id : db.createMongoID(),
@@ -38,9 +38,9 @@ describe('Job.js Tests:', function() {
         });    
     });
 
-    describe('Job Validation Tests:', function() {
+    describe('Job Validation Tests:', () => {
 
-        it('Job Validation - Happy Path', async function() {
+        it('Job Validation - Happy Path', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),
@@ -55,7 +55,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Validation - ID', async function() {
+        it('Job Validation - ID', async () => {
            
             let jobObject = {
                 _id : "Not a Job ID",
@@ -75,7 +75,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Validation - jobNumber', async function() {
+        it('Job Validation - jobNumber', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),
@@ -95,7 +95,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Validation - addressID', async function() {
+        it('Job Validation - addressID', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),
@@ -115,7 +115,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Validation - clientID', async function() {
+        it('Job Validation - clientID', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),
@@ -135,7 +135,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Validation - budgetID', async function() {
+        it('Job Validation - budgetID', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),
@@ -157,9 +157,9 @@ describe('Job.js Tests:', function() {
 
     });
 
-    describe('Job Save Tests:', function() {
+    describe('Job Save Tests:', () => {
 
-        it('Job Save - Happy Path', async function() {
+        it('Job Save - Happy Path', async () => {
             
             let jobObject = {
                 _id : db.createMongoID(),
@@ -176,7 +176,7 @@ describe('Job.js Tests:', function() {
             if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job save failed');
         });
 
-        it('Job Save - Save Calls Validate', async function() {
+        it('Job Save - Save Calls Validate', async () => {
             
             let jobObject = {
                 _id : db.createMongoID(),
@@ -200,9 +200,9 @@ describe('Job.js Tests:', function() {
 
     });
 
-    describe('Job Delete Tests:', function() {
+    describe('Job Delete Tests:', () => {
 
-        it('Job Delete - Happy Path (No Budget)', async function() {
+        it('Job Delete - Happy Path (No Budget)', async () => {
             
             let jobObject = {
                 _id : db.createMongoID(),
@@ -221,7 +221,7 @@ describe('Job.js Tests:', function() {
 
         });
 
-        it('Job Delete - Cant Find Job', async function() {
+        it('Job Delete - Cant Find Job', async () => {
            
             let jobObject = {
                 _id : db.createMongoID(),

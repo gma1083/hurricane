@@ -2,7 +2,7 @@ const database = require('../database');
 const collectionName = 'Foremen';
 
 
-async function returnForemen(){
+async function returnForemen() {
     return database.find({}, 'Foremen');
 }
 

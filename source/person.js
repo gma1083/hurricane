@@ -1,7 +1,7 @@
 const db = require('./database.js');
 
 class Person {
-    constructor(firstName, lastName, birthDate){
+    constructor(firstName, lastName, birthDate) {
         this._id = db.createMongoID();
         this.firstName = firstName;
         this.lastName = lastName;

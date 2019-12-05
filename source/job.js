@@ -56,7 +56,7 @@ class Job {
     }
 
     async deleteBudget() {
-        if(this.budgetID !== null){
+        if(this.budgetID !== null) {
             let budget = await db.findOne({_id : this.budgetID}, 'Budgets');
             let deleteBudgetPromise = await budget.delete();
             return deleteBudgetPromise;
@@ -65,7 +65,7 @@ class Job {
     }
 
     async unlinkTimesheets() {
-        if(this.timeSheets.length !== 0){
+        if(this.timeSheets.length !== 0) {
             let unlinkTimesheetsResult = db.updateMany({_id : {$in : this.timesheets}}, { $set: { jobId : null} }, 'Timesheets');
             return unlinkTimesheetsResult;
         }
@@ -73,7 +73,7 @@ class Job {
     }
 
     async unlinkExpenses() {
-        if(this.expenses !== null){
+        if(this.expenses !== null) {
             let unlinkExpensesResult = db.updateMany({_id : {$in : this.expenses}}, { $set: { jobId : null} }, 'Expenses');
             return unlinkExpensesResult;
         }
@@ -81,7 +81,7 @@ class Job {
     }
 
     async unlinkIncomes() {
-        if(this.incomes !== null){
+        if(this.incomes !== null) {
             let unlinkIncomesResult = db.updateMany({_id : {$in : this.incomes}}, { $set: { jobId : null} }, 'Incomes');
             return unlinkIncomesResult;
         }
@@ -89,6 +89,5 @@ class Job {
     }
 
 }
-
 
 module.exports = Job;
