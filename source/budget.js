@@ -16,6 +16,7 @@ class Budget {
 
     async save() {
         await this.validate();
+        await db.updateOne({_id : this.jobID}, { $push: { budgetID : this._d} }, 'Jobs');
         return db.insertOne(this, collectionName);
     }
 

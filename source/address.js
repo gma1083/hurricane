@@ -19,7 +19,7 @@ class Address {
         return db.insertOne(this, collectionName);
     }
 
-   async  delete() {
+   async delete() {
         return db.deleteOne({_id : this._id}, collectionName);
     }
 

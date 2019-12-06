@@ -5,9 +5,9 @@ const mongodb = require('mongodb');
 class Timesheet {
 
     constructor(timesheet) {
-        this._id = db.createMongoID();
-        this.date = new Date();
-        this.employeeID = timesheet.employeeID;
+        this._id = timesheet._id ? timesheet._id : db.createMongoID();
+        this.date = timesheet.date ? timesheet.date : new Date();
+        this.employeeID = timesheet.employeeID ? timesheet.employeeID : db.createMongoID();
         this.jobNumber = timesheet.jobNumber;
         this.jobID = timesheet.jobID ? timesheet.jobID : null;
         this.estCrewSize = timesheet.estCrewSize;
@@ -21,12 +21,27 @@ class Timesheet {
         this.notes = timesheet.notes;
     }
 
+
+    /**********************************************************
+    //  Method name : save()
+    //
+    //  Parameters : None
+    //
+    //  Returns : Promise<insertOneWriteOpResultObject> - SEE https://mongodb.github.io/node-mongodb-native/3.3/api/Collection.html#~insertOneWriteOpResult 
+    //
+    //  Throws : error if validate() throws an error
+    //           error if updateOne() throws an error
+    //           error if insertOne() throws an error
+    //
+    **********************************************************/
     async save() {
+        this.validate();
+        //await db.updateOne({_id : this.jobID}, { $push: { timsheets : this._id} }, 'Jobs');
         return db.insertOne(this, collectionName);
     }
 
     async delete() {
-        await db.updateOne({_id : this.jobID}, { $pull: { timsheets : this.jobID} }, 'Jobs');
+        await db.updateOne({_id : this.jobID}, { $pull: { timsheets : this._id} }, 'Jobs');
         return db.deleteOne({_id : this._id}, collectionName);
     }
 

@@ -216,7 +216,7 @@ describe('Job.js Tests:', () => {
 
             await job.save();
 
-            let deletedPromises = await job.delete();
+            let deletedPromises = job.delete();
             if(!(deletedPromises[4].result.ok === 1 && deletedPromises[4].result.n === 1)) throw new Error('Job Delete - job.delete() failed');
 
         });

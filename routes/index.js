@@ -70,6 +70,13 @@ router.get('/timeSheets', async function(req, res, next){
   res.render('timeSheets', {title : 'Time Sheets List', timeSheetsArray : timeSheetsArray});
 });
 
+router.get('/timeSheets/:timeSheetsID', async function (req, res) {
+  console.log("route");
+  const timesheetID = req.params.timeSheetsID;
+  await timeSheetsController.deleteTimeSheet(timesheetID);
+  res.redirect('/timeSheets');
+});
+
 router.get('/Jobs', function(req, res, next){
   res.render('jobs', {title : 'Jobs'});
 });

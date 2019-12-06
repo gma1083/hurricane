@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "target" : "es6",
-        "esversion" : 6,
         "module" : "commonjs"
     }
 }

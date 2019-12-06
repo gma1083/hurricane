@@ -16,7 +16,7 @@ class Job {
     }
 
     async save() {
-        await this.validate();
+        this.validate();
         return db.insertOne(this, collectionName);
     }
 
@@ -47,7 +47,7 @@ class Job {
         return deleteResults;
     }
 
-    async validate() {
+    validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('JobID is not valid');
         if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
         if(!(this.addressID instanceof mongodb.ObjectID) && (this.addressID !== null)) throw new Error('Address is not valid');

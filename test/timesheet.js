@@ -1,6 +1,6 @@
 const db = require('../source/database');
 const Timesheet = require('../source/timesheet');
-const collectionName = 'Timesheets';
+const collectionName = 'TimeSheets';
 
 describe('Timesheet.js Tests:', () => {
     
@@ -12,6 +12,113 @@ describe('Timesheet.js Tests:', () => {
     // Closes database connection after testing
     after(async () => {
         await db.myClose();
+    });
+
+    describe('Timesheet Constructor Tests: ', () => {
+
+        it('Timesheet Constructor - Happy Path', async () => {
+
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+
+            const timesheet = new Timesheet(timesheetValues);
+
+            if(timesheet._id !== timesheetValues._id) throw new Error('Timesheet Constructor Failure - timesheet._id');
+            if(timesheet.date !== timesheetValues.date) throw new Error('Timesheet Constructor Failure - timesheet.date');
+            if(timesheet.employeeID !== timesheetValues.employeeID) throw new Error('Timesheet Constructor Failure - timesheet.employeeID');
+            if(timesheet.jobNumber !== timesheetValues.jobNumber) throw new Error('Timesheet Constructor Failure - timesheet.jobNumber');
+            if(timesheet.jobID !== timesheetValues.jobID) throw new Error('Timesheet Constructor Failure - timesheet.jobID');
+            if(timesheet.estCrewSize !== timesheetValues.estCrewSize) throw new Error('Timesheet Constructor Failure - timesheet.estCrewSize');
+            if(timesheet.estCrewHours !== timesheetValues.estCrewHours) throw new Error('Timesheet Constructor Failure - timesheet.estCrewHours');
+            if(timesheet.tmCrewSize !== timesheetValues.tmCrewSize) throw new Error('Timesheet Constructor Failure - timesheet.tmCrewSize');
+            if(timesheet.tmCrewHours !== timesheetValues.tmCrewHours) throw new Error('Timesheet Constructor Failure - timesheet.tmCrewHours');
+            if(timesheet.lunchTaken !== timesheetValues.lunchTaken) throw new Error('Timesheet Constructor Failure - timesheet.lunchTaken');
+            if(timesheet.jobFinished !== timesheetValues.jobFinished) throw new Error('Timesheet Constructor Failure - timesheet.jobFinished');
+            if(timesheet.offHauled !== timesheetValues.offHauled) throw new Error('Timesheet Constructor Failure - timesheet.offHauled');
+            if(timesheet.yardsHauled !== timesheetValues.yardsHauled) throw new Error('Timesheet Constructor Failure - timesheet.yardsHauled');
+            if(timesheet.notes !== timesheetValues.notes) throw new Error('Timesheet Constructor Failure - timesheet.notes');
+
+        });
+
+
+    });
+
+    describe('Timesheet Save Tests:', () => {
+
+        it('Timesheet Save - Happy Path', async () => {
+            
+            let timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            let timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+
+            let foundTimesheet = await db.findOne({ _id : timesheet._id}, collectionName);
+            if(!(foundTimesheet._id.equals(timesheetValues._id))) throw new Error('Timesheet save failed');
+        });
+
+    });
+
+
+    describe('Timesheet Delete Tests:', () => {
+
+        it('Timesheet Delete - Happy Path', async () => {
+
+            let timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+
+            let timesheet = new Timesheet(timesheetValues);
+
+            await timesheet.save();
+
+            let deletedPromise = await timesheet.delete();
+            if(!(deletedPromise.result.ok === 1 && deletedPromise.result.n === 1)) throw new Error('Timesheet Delete - timesheet.delete() failed');
+
+
+
+        });
+
     });
 
     describe('Timesheet Validation Tests:', () => {

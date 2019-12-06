@@ -25,23 +25,32 @@ block content
             th(scope = "col") Notes
             th(scope = "col") Problems
             th(scope = "col") Questions
+            th(scopt = 'col') Delete
             each sheet in timeSheetsArray
                 tr#timeSheet_list_item   
-                td #{sheet.date}
-                td #{sheet.foreman}
-                td #{sheet.jobNumber}
-                td #{sheet.jobSite}
-                td #{sheet.jobCity}
-                td #{sheet.crewSizeEstimate}
-                td #{sheet.hoursEstimate}
-                td #{sheet.crewSizeTM}
-                td #{sheet.hoursTM}
-                td #{sheet.lunch}
-                td #{sheet.done}
-                td #{sheet.md}
-                td #{sheet.drc}
-                td #{sheet.cd}
-                td #{sheet.otherHauling}
-                td #{sheet.notes}
-                td #{sheet.problems}
-                td #{sheet.questions}
+                    td #{sheet.date}
+                    td #{sheet.foreman}
+                    td #{sheet.jobNumber}
+                    td #{sheet.jobSite}
+                    td #{sheet.jobCity}
+                    td #{sheet.crewSizeEstimate}
+                    td #{sheet.hoursEstimate}
+                    td #{sheet.crewSizeTM}
+                    td #{sheet.hoursTM}
+                    td #{sheet.lunch}
+                    td #{sheet.done}
+                    td #{sheet.md}
+                    td #{sheet.drc}
+                    td #{sheet.cd}
+                    td #{sheet.otherHauling}
+                    td #{sheet.notes}
+                    td #{sheet.problems}
+                    td #{sheet.questions}
+                    td 
+                        button(type="button", class="btn btn-danger", onclick="deleteTimesheet(\"" +  sheet._id + "\")") Delete
+
+    script.
+        function deleteTimesheet(timesheet_id) {
+            console.log(timesheet_id);
+            window.location = '/timeSheets/' + timesheet_id;
+        }
