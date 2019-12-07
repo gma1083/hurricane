@@ -1,13 +1,13 @@
-const db = require('./database');
-const collectionName = 'Budgets';
+const db = require('../source/database');
+const budgetCollection = 'Budgets';
 const mongodb = require('mongodb');
 
 class Budget {
 
     constructor(budget) {
-        this._id = db.createMongoID();
+        this._id = budget._id ? budget._id : db.createMongoID();
         this.jobNumber = budget.jobNumber;
-        this.jobID = budget.jobID;
+        this.jobID = budget.jobID ? budget.jobID : db.createMongoID();
         this.soldPrice = budget.soldPrice;
         this.expectedHours = budget.expectedHours;
         this.expectedDump = budget.expectedDump;
@@ -16,19 +16,27 @@ class Budget {
 
     async save() {
         await this.validate();
-        await db.updateOne({_id : this.jobID}, { $push: { budgetID : this._d} }, 'Jobs');
-        return db.insertOne(this, collectionName);
+        await db.updateOne({_id : this.jobID}, { $push: { budgetID : this._id} }, budgetCollection);
+        return db.insertOne(this, budgetCollection);
+    }
+
+    static async findOne(query) {
+        return db.findOne(query, budgetCollection);
+    }
+
+    async updateOne(update) {
+        return db.updateOne({_id : this._id}, update, budgetCollection);
     }
 
     async delete() {
         await db.updateOne({_id : this.jobID}, { $set: { budgetID : null}}, 'Jobs');
-        return db.deleteOne({_id : this._id}, collectionName);
+        return db.deleteOne({_id : this._id}, budgetCollection);
     }
 
     static async delete(budgetID) {
-        let budget = await db.findOne({_id : budgetID}, collectionName);
+        let budget = await db.findOne({_id : budgetID}, budgetCollection);
         await db.updateOne({_id : budget.jobID}, { $set: { budgetID : null} }, 'Jobs');
-        return db.deleteOne({_id : budgetID}, collectionName);
+        return db.deleteOne({_id : budgetID}, budgetCollection);
     }
 
     async validate() {

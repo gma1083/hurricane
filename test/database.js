@@ -6,10 +6,10 @@ describe('Database.js Tests:', () => {
     describe('Database Opening and Closing Tests:', () => {
      
         // Tests connecting to the db
-        it('Database - myOpen', async () => {
+        it('Database - myOpen()', async () => {
             let dbConnected = await db.myConnect();
             if(dbConnected === null) {
-                throw new Error('First Error');
+                throw new Error('Database - myOpen() failed');
             }
             else{
                 return true;
@@ -17,8 +17,14 @@ describe('Database.js Tests:', () => {
         });
 
         // Tests closing the connection to the db
-        it('Database - myClose', async () => {
-            await db.myClose();
+        it('Database - myClose()', async () => {
+            const dbDisconnected = await db.myClose();
+            if(dbDisconnected[0] !== null && dbDisconnected[1] !== null) {
+                throw new Error('Databse - myClose() failed');
+            }
+            else{
+                return true;
+            }
         });
 
     });
@@ -177,7 +183,7 @@ describe('Database.js Tests:', () => {
             // Tests finding first document meeting criteria
             it('Database - findOne()', async () => {
                 let result = await db.findOne(nameFilter, collection);
-                if(result.name !== document.name) throw new Error('findOne test Failed');
+                if(!(result._id.equals(document._id))) throw new Error('findOne test Failed');
             });
 
             it('Database - find()', async () => {

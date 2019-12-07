@@ -1,6 +1,7 @@
 const db = require('../source/database');
 const Job = require('../source/job');
-const collection = 'Jobs';
+const jobsCollection = 'Jobs';
+const mongodb = require('mongodb');
 
 describe('Job.js Tests:', () => {
 
@@ -172,7 +173,7 @@ describe('Job.js Tests:', () => {
             let job = new Job(jobObject);
             await job.save();
 
-            let foundJob = await db.findOne({ _id : jobObject._id}, collection);
+            let foundJob = await db.findOne({ _id : jobObject._id}, jobsCollection);
             if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job save failed');
         });
 
@@ -200,10 +201,38 @@ describe('Job.js Tests:', () => {
 
     });
 
+    describe('Job Find Tests:', () => {
+
+        describe('Job.findOne() Tests:', () => {
+
+            it('Job.findOne() - Happy Path', async () => {
+                let jobObject = {
+                    _id : db.createMongoID(),
+                    jobNumber : 12345,
+                    addressID : null,
+                    clientID : null,
+                    budgetID : null        
+                };
+    
+                let job = new Job(jobObject);
+                await job.save();
+
+                let foundJob = await Job.findOne({_id : jobObject._id});
+                if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job.findOne() failed - happy path');
+            });
+
+            it('Job.findOne() - Job doesnt exist', async () => {
+                let foundJob = await Job.findOne({_id : new mongodb.ObjectID});
+                if(foundJob !== null) throw new Error('Job.findOne() failed - Job found that shouldnt exist');
+            });
+
+        });
+
+    });
+
     describe('Job Delete Tests:', () => {
 
         it('Job Delete - Happy Path (No Budget)', async () => {
-            
             let jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
@@ -213,16 +242,15 @@ describe('Job.js Tests:', () => {
             };
 
             let job = new Job(jobObject);
-
             await job.save();
 
-            let deletedPromises = job.delete();
-            if(!(deletedPromises[4].result.ok === 1 && deletedPromises[4].result.n === 1)) throw new Error('Job Delete - job.delete() failed');
+            await job.delete();
 
+            let findDeletedJob = await Job.findOne({_id : job._id});
+            if(findDeletedJob !== null) throw new Error('Job Delete - Found job that should have been deleted');
         });
 
         it('Job Delete - Cant Find Job', async () => {
-           
             let jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
@@ -230,9 +258,6 @@ describe('Job.js Tests:', () => {
                 clientID : null,
                 budgetID : null        
             };
-
-
-
         });
     });
 

@@ -22,8 +22,11 @@ async function myConnect() {
 
 async function myClose() {
     await client.close();
+    let dbClosed = [];
     db = null;
     client = null;
+    dbClosed.push(db, client);
+    return dbClosed
 }
 
 // Database method to create a new MongoDB ObjectID 

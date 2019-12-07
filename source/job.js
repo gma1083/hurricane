@@ -1,6 +1,7 @@
 const db = require('./database');
 const collectionName = 'Jobs';
 const mongodb = require('mongodb');
+const Budget = require('./budget');
 
 class Job {
 
@@ -18,6 +19,10 @@ class Job {
     async save() {
         this.validate();
         return db.insertOne(this, collectionName);
+    }
+
+    static async findOne(query) {
+        return db.findOne(query, collectionName);
     }
 
     async delete() {
@@ -57,7 +62,7 @@ class Job {
 
     async deleteBudget() {
         if(this.budgetID !== null) {
-            let budget = await db.findOne({_id : this.budgetID}, 'Budgets');
+            let budget = await Budget.findOne({_id : this.budgetID});
             let deleteBudgetPromise = await budget.delete();
             return deleteBudgetPromise;
         }
