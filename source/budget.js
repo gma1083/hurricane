@@ -24,6 +24,10 @@ class Budget {
         return db.findOne(query, budgetCollection);
     }
 
+    static async findById(budgetID) {
+        return db.findOne({_id : budgetID}, budgetCollection);
+    }
+
     async updateOne(update) {
         return db.updateOne({_id : this._id}, update, budgetCollection);
     }

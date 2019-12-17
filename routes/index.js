@@ -71,7 +71,6 @@ router.get('/timeSheets', async function(req, res, next){
 });
 
 router.get('/timeSheets/:timeSheetsID', async function (req, res) {
-  console.log("route");
   const timesheetID = req.params.timeSheetsID;
   await timeSheetsController.deleteTimeSheet(timesheetID);
   res.redirect('/timeSheets');

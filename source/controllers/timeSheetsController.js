@@ -9,12 +9,8 @@ async function returnTimeSheets() {
 }
 
 async function deleteTimeSheet(timeSheetID) {
-    console.log("Controller");
-    console.log(timeSheetID);
-    const result = await db.find({_id : new mongodb.ObjectID(timeSheetID)}, collection);
-    console.log("After Find: " + result);
+    const result = await db.findOne({_id : new mongodb.ObjectID(timeSheetID)}, collection);
     const timesheet = new Timesheet(result);
-    console.log(timesheet);
     await timesheet.delete();
 }
 
