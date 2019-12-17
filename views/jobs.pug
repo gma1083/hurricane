@@ -1,3 +1,34 @@
 extends layout
 
 block content
+
+    br
+
+    //- div(class = "container")
+    table(class = "table table-striped")
+        thead(class = "thead-dark")
+            th(scope = "col") Job Number
+            th(scope = "col") Address ID
+            th(scope = "col") Client ID
+            th(scope = "col") Timesheets
+            th(scope = "col") Expenses
+            th(scope = "col") Budget ID
+            th(scope = "col") Incomes
+            th(scopt = 'col') Delete
+            each job in jobsArray
+                tr#job_list_item   
+                    td #{job.jobNumber}
+                    td #{job.addressID}
+                    td #{job.clientID}
+                    td #{job.timeSheets}
+                    td #{job.expenses}
+                    td #{job.budgetID}
+                    td #{job.incomes}
+                    td 
+                        button(type="button", class="btn btn-danger", onclick="deleteJob(\"" +  sheet._id + "\")") Delete
+
+    script.
+        function deleteJob(timesheet_id) {
+            window.location = '/Jobs/delete/' + timesheet_id;
+        }
+                    
