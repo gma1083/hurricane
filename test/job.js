@@ -191,6 +191,7 @@ describe('Job.js Tests:', () => {
         
             try{
                 await job.save();
+                throw new Error('Job save() should have thrown an error while validating and did not');
             }
             catch(error){
                 if(error.message !== 'Job Number is not valid') throw new Error('Job Save does not call validate');
@@ -222,7 +223,7 @@ describe('Job.js Tests:', () => {
             });
 
             it('Job.findOne() - Job doesnt exist', async () => {
-                let foundJob = await Job.findOne({_id : new mongodb.ObjectID});
+                let foundJob = await Job.findOne({_id : new mongodb.ObjectID()});
                 if(foundJob !== null) throw new Error('Job.findOne() failed - Job found that shouldnt exist');
             });
 

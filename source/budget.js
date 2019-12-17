@@ -15,8 +15,8 @@ class Budget {
     }
 
     async save() {
-        await this.validate();
-        await db.updateOne({_id : this.jobID}, { $push: { budgetID : this._id} }, budgetCollection);
+        this.validate();
+        await db.updateOne({_id : this.jobID}, { $set: { "budgetID" : this._id} }, 'Jobs');
         return db.insertOne(this, budgetCollection);
     }
 
@@ -34,14 +34,14 @@ class Budget {
     }
 
     static async delete(budgetID) {
-        let budget = await db.findOne({_id : budgetID}, budgetCollection);
-        await db.updateOne({_id : budget.jobID}, { $set: { budgetID : null} }, 'Jobs');
-        return db.deleteOne({_id : budgetID}, budgetCollection);
+        const budget = await db.findOne({_id : budgetID}, budgetCollection);
+        if(budget.jobID !== null) await db.updateOne({_id : budget.jobID}, { $set: { budgetID : null} }, 'Jobs');
+        return db.deleteOne({_id : budgetID}, 'Budgets');
     }
 
-    async validate() {
+    validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('Budget ID is not valid');
-        if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
+        if(typeof(this.jobNumber) !== 'number') throw new Error('Budget jobNumber is not valid');
         if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('Budget jobID is not valid');
         if(typeof(this.soldPrice) !== 'number') throw new Error('Budget soldPrice is not valid');
         if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedHours is not valid');

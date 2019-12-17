@@ -12,7 +12,7 @@ class Job {
         this.clientID = job.client ? job.client : null;
         this.timeSheets = [];
         this.expenses = [];
-        this.budgetID = job.budget ? job.budget : null;
+        this.budgetID = job.budgetID ? job.budgetID : null;
         this.incomes = [];
     }
 
