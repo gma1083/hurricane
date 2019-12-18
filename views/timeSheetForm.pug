@@ -9,62 +9,71 @@ block content
             div(class = "form-group")
                 div.input
                     span.label Date   
-                    input(type="date", class="form-control", name="date")
+                    input(id='date',type="date", class="form-control", name="date")
                 div
                     span.label Name
-                    select(class='form-control', name='foreman', placeholder='Your Name')
+                    select(id='name',class='form-control', name='foreman', placeholder='Your Name')
                         option Select Foreman
                         each foreman in foremenArray
                             option #{foreman.name}
                 div.input
                     span.label Job Number   
-                    input(type="number", class="form-control", name="jobNumber", placeholder='Job Number From Calendar')
+                    input(id='jobNumber',type="number", class="form-control", name="jobNumber")
                 div.input
                     span.label Job Site   
-                    input(type="text", class="form-control", name="jobSite")
+                    input(id='jobSite',type="text", class="form-control", name="jobSite")
                 div.input
                     span.label City   
-                    input(type="text", class="form-control", name="jobCity")
+                    input(id='city',type="text", class="form-control", name="jobCity")
                 div.input
                     span.label Crew Size For Estimate
-                    input(type="number", class="form-control", name="crewSizeEstimate")
+                    input(id='estCrew',type="number", class="form-control", name="crewSizeEstimate")
                 div.input
                     span.label Hours Worked  For Estimate   
-                    input(type="time", class="form-control", name="hoursEstimate")
+                    input(id='estHours',type="time", class="form-control", name="hoursEstimate")
                 div.input
                     span.label Crew Size For T&M  
-                    input(type="number", class="form-control", name="crewSizeTM")
+                    input(id='tmCrew',type="number", class="form-control", name="crewSizeTM")
                 div.input
                     span.label Hours Worked For T&M
-                    input(type="time", class="form-control", name="hoursTM")
+                    input(id='tmHours',type="time", class="form-control", name="hoursTM")
                 div.input
                     span.label Lunch Taken?  
-                    input(type="text", class="form-control", name="lunch")
+                    input(id='lunch',type="text", class="form-control", name="lunch")
                 div.input
                     span.label Done? 
-                    input(type="text", class="form-control", name="done")
+                    input(id='done',type="text", class="form-control", name="done")
                 div.input
                     span.label MD   
-                    input(type="number", class="form-control", name="md")
+                    input(id='md',type="number", class="form-control", name="md")
                 div.input
                     span.label DRC  
-                    input(type="number", class="form-control", name="drc")
+                    input(id='drc',type="number", class="form-control", name="drc")
                 div.input
                     span.label CD   
-                    input(type="number", class="form-control", name="cd")
+                    input(id='cd',type="number", class="form-control", name="cd")
                 div.input
                     span.label Other Hauling   
-                    input(type="text", class="form-control", name="otherHauling")
+                    input(id='otherHauling',type="text", class="form-control", name="otherHauling")
                 div.input
                     span.label Notes 
-                    input(type="text", class="form-control", name="notes")
+                    input(id='notes',type="text", class="form-control", name="notes")
                 div.input
                     span.label Problems 
-                    input(type="text", class="form-control", name="problems")
+                    input(id='problems',type="text", class="form-control", name="problems")
                 div.input
                     span.label Questions
-                    input(type="text", class="form-control", name="questions")
+                    input(id='questions',type="text", class="form-control", name="questions")
                 div.actions
-                    input(type="submit", class="btn btn-primary", value="Submit")
+                    input(id='submit',type="submit", class="btn btn-primary", value="Submit")
 
-
+    if timesheet
+        script.
+            window.onload = function() {
+                    document.getElementById("jobNumber").defaultValue = "#{timesheet.jobNumber}";
+                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+                    document.getElementById("estHours").defaultValue = "#{timesheet.estCrewHours}";
+                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+            };

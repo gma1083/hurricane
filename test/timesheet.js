@@ -1,6 +1,7 @@
 const db = require('../source/database');
 const Timesheet = require('../source/timesheet');
 const collectionName = 'TimeSheets';
+const mongodb = require('mongodb');
 
 describe('Timesheet.js Tests:', () => {
     
@@ -119,6 +120,35 @@ describe('Timesheet.js Tests:', () => {
 
         });
 
+    });
+
+    describe('Timesheet Update Tests:', () => {
+
+        it('timesheet.updateOne() - Happy Path', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+            timesheet.yardsHauled = 20;
+
+            await timesheet.updateOne();
+            const newTimesheet = await db.findOne({_id : timesheet._id}, collectionName);
+            if(newTimesheet.yardsHauled === timesheetValues.yardsHauled) throw new Error('timesheet.updateOne() failed');
+        });
     });
 
     describe('Timesheet Validation Tests:', () => {
@@ -338,6 +368,85 @@ describe('Timesheet.js Tests:', () => {
             catch(error) {
                 if (error.message !== 'notes is not valid') throw new Error('timesheet notes validation failed') ;
             }
+        });
+
+    });
+
+    describe('Timesheets Find Tests:', () => {
+        
+        it('Timesheet.findById() Test - Happy Path', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+    
+            const foundTimesheet = await Timesheet.findById(timesheet._id);
+            if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() failed');
+        });
+
+        it('Timesheet.findById() Test - Find Returns Instance of Timesheet', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+    
+            const foundTimesheet = await Timesheet.findById(timesheet._id);
+            if(!(foundTimesheet instanceof Timesheet)) throw new Error('Timesheet.findById() return is not Instance of Timesheet');
+        });
+
+        it('Timesheet.findById() Test - findById() with string ID', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+
+            const stringID = timesheet._id.toHexString();
+            if(stringID instanceof mongodb.ObjectID) throw new Error('timesheet._id conversion to hexString failed');
+
+            const foundTimesheet = await Timesheet.findById(stringID);
+            if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() id string conversion failed');
         });
 
     });

@@ -50,9 +50,7 @@ router.get('/timeSheetForm', async function(req, res, next) {
 
 router.post('/timeSheetForm', async function(req, res, next) {
   try {
-    console.log(JSON.stringify(req.body, null, 2));
     let result = await timeSheetFormController.insertTime(req.body);
-    console.log(result);
   }
   catch(error) {
     throw error;
@@ -76,9 +74,24 @@ router.get('/timeSheets/delete/:timeSheetsID', async function (req, res) {
   res.redirect('/timeSheets');
 });
 
-// router.get('/timeSheets/edit/:timeSheetsID', async function(req, res) {
-//   const timesheetID = req.params.timeSheetsID;
-// });
+router.get('/timeSheets/edit/:timeSheetsID', async function(req, res) {
+  const foremenArray = await foremenController.returnForemen();
+  const timesheetID = req.params.timeSheetsID;
+  const timesheet = await timeSheetsController.getTimesheet(timesheetID);
+  res.render('timeSheetForm', {title : 'Edit Foreman HOURS', foremenArray : foremenArray, timesheet : timesheet, string: "hello"});
+});
+
+router.post('/timeSheets/edit/:timeSheetsID', async function(req, res, next) {
+  try {
+    const timesheetID = req.params.timeSheetsID;
+    req.body._id = timesheetID;
+    await timeSheetFormController.updateTimesheet(req.body);
+  }
+  catch(error) {
+    throw error;
+  }
+    res.redirect('/');
+});
 
 router.get('/Jobs', async function(req, res, next) {
   const jobsArray = await jobsController.returnJobs();

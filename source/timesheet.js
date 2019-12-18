@@ -1,5 +1,5 @@
 const db = require('./database');
-const collectionName = 'TimeSheets';
+const timesheetCollection = 'TimeSheets';
 const mongodb = require('mongodb');
 
 class Timesheet {
@@ -19,9 +19,12 @@ class Timesheet {
         this.offHauled = timesheet.offHauled;
         this.yardsHauled = timesheet.yardsHauled;
         this.notes = timesheet.notes;
+        this.constructorValidation();
     }
 
+    constructorValidation() {
 
+    }
     /**********************************************************
     //  Method name : save()
     //
@@ -37,12 +40,28 @@ class Timesheet {
     async save() {
         this.validate();
         //await db.updateOne({_id : this.jobID}, { $push: { timsheets : this._id} }, 'Jobs');
-        return db.insertOne(this, collectionName);
+        return db.insertOne(this, timesheetCollection);
+    }
+
+    static async findById(timesheetID) {
+        if(!(timesheetID instanceof mongodb.ObjectID)) timesheetID = new mongodb.ObjectID(timesheetID);
+        const foundTimesheet = await db.findOne({_id : timesheetID}, timesheetCollection);
+        const timesheet = new Timesheet(foundTimesheet);
+        return timesheet;
+
+    }
+
+    async findOne() {
+
     }
 
     async delete() {
         await db.updateOne({_id : this.jobID}, { $pull: { timsheets : this._id} }, 'Jobs');
-        return db.deleteOne({_id : this._id}, collectionName);
+        return db.deleteOne({_id : this._id}, timesheetCollection);
+    }
+
+    async updateOne() {
+        return db.updateOne({_id : this._id}, { $set : this}, timesheetCollection);
     }
 
     /**********************************************************

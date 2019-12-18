@@ -25,6 +25,7 @@ block content
             th(scope = "col") Notes
             th(scope = "col") Problems
             th(scope = "col") Questions
+            th(scopt = 'col') Edit
             th(scopt = 'col') Delete
             each sheet in timeSheetsArray
                 tr#timeSheet_list_item   
@@ -47,9 +48,14 @@ block content
                     td #{sheet.problems}
                     td #{sheet.questions}
                     td 
+                        button(type="button", class="btn btn-info", onclick="editTimesheet(\"" +  sheet._id + "\")") Edit
+                    td 
                         button(type="button", class="btn btn-danger", onclick="deleteTimesheet(\"" +  sheet._id + "\")") Delete
 
     script.
         function deleteTimesheet(timesheet_id) {
             window.location = '/timeSheets/delete/' + timesheet_id;
+        }
+        function editTimesheet(timesheet_id) {
+            window.location = '/timeSheets/edit/' + timesheet_id;
         }

@@ -26,7 +26,7 @@ async function myClose() {
     db = null;
     client = null;
     dbClosed.push(db, client);
-    return dbClosed
+    return dbClosed;
 }
 
 // Database method to create a new MongoDB ObjectID 
