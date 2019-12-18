@@ -19,10 +19,6 @@ class Address {
         return db.insertOne(this, collectionName);
     }
 
-   async delete() {
-        return db.deleteOne({_id : this._id}, collectionName);
-    }
-
     async validate() {
         if(!(this._id instanceof mongodb.ObjectID)) throw new Error('adressID is not valid');
         if(typeof(this.streetNumber) !== 'number') throw new Error('Street Number is not valid');
@@ -32,6 +28,12 @@ class Address {
         if(typeof(this.zip) !== 'number') throw new Error('Zip is not valid');
         if(typeof(this.county) !== 'string') throw new Error('Country is not valid');  
     }
+
+   async delete() {
+        return db.deleteOne({_id : this._id}, collectionName);
+    }
+
+    
     
 }
 

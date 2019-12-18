@@ -19,12 +19,8 @@ class Timesheet {
         this.offHauled = timesheet.offHauled;
         this.yardsHauled = timesheet.yardsHauled;
         this.notes = timesheet.notes;
-        this.constructorValidation();
     }
-
-    constructorValidation() {
-
-    }
+    
     /**********************************************************
     //  Method name : save()
     //
@@ -44,15 +40,29 @@ class Timesheet {
     }
 
     static async findById(timesheetID) {
-        if(!(timesheetID instanceof mongodb.ObjectID)) timesheetID = new mongodb.ObjectID(timesheetID);
-        const foundTimesheet = await db.findOne({_id : timesheetID}, timesheetCollection);
-        const timesheet = new Timesheet(foundTimesheet);
-        return timesheet;
-
+        if(!(timesheetID instanceof mongodb.ObjectID)) {
+            try{
+                timesheetID = new mongodb.ObjectID(timesheetID);
+            }
+            catch(error){
+                return null;
+            }
+        }
+        const timesheetData = await db.findOne({_id : timesheetID}, timesheetCollection);
+        if(timesheetData !== null) {
+            const timesheet = new Timesheet(timesheetData);
+            return timesheet;
+        }
+        return timesheetData;
     }
 
-    async findOne() {
-
+    static async findOne(query) {
+        const timesheetData = await db.findOne(query, timesheetCollection);
+        if(timesheetData !== null) {
+            const timesheet = new Timesheet(timesheetData);
+            return timesheet;
+        }
+        return timesheetData;
     }
 
     async delete() {
@@ -91,7 +101,6 @@ class Timesheet {
         if(typeof(this.notes) !== 'string') throw new Error('notes is not valid');
     }
 
-    
 }
 
 module.exports = Timesheet;

@@ -3,11 +3,11 @@ const Timesheet = require('../timesheet');
 const collectionName = 'TimeSheets';
 const mongodb = require('mongodb');
 
-async function insertTime(timeSheet) {
-    const findResult = await database.find({name : timeSheet.foreman}, 'Foremen');
+async function insertTime(timeSheetData) {
+    const findResult = await database.find({name : timeSheetData.foreman}, 'Foremen');
     if(findResult.length === 0) throw new Error('Foreman Not Found');
-    
-    return database.insertOne(timeSheet, collectionName);
+    const timesheet = new Timesheet(timeSheetData);
+    return timesheet.save();
 }
 
 async function updateTimesheet(timeSheetData) {
@@ -20,4 +20,4 @@ async function updateTimesheet(timeSheetData) {
 module.exports = {
     insertTime,
     updateTimesheet,
-}
+};

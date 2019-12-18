@@ -50,7 +50,7 @@ router.get('/timeSheetForm', async function(req, res, next) {
 
 router.post('/timeSheetForm', async function(req, res, next) {
   try {
-    let result = await timeSheetFormController.insertTime(req.body);
+    await timeSheetFormController.insertTime(req.body);
   }
   catch(error) {
     throw error;

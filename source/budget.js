@@ -20,6 +20,16 @@ class Budget {
         return db.insertOne(this, budgetCollection);
     }
 
+    validate() {
+        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('Budget ID is not valid');
+        if(typeof(this.jobNumber) !== 'number') throw new Error('Budget jobNumber is not valid');
+        if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('Budget jobID is not valid');
+        if(typeof(this.soldPrice) !== 'number') throw new Error('Budget soldPrice is not valid');
+        if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedHours is not valid');
+        if(typeof(this.expectedDump) !== 'number') throw new Error('Budget expectedDump is not valid');
+        if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedExpenses is not valid');
+    }
+
     static async findOne(query) {
         return db.findOne(query, budgetCollection);
     }
@@ -41,16 +51,6 @@ class Budget {
         const budget = await db.findOne({_id : budgetID}, budgetCollection);
         if(budget.jobID !== null) await db.updateOne({_id : budget.jobID}, { $set: { budgetID : null} }, 'Jobs');
         return db.deleteOne({_id : budgetID}, 'Budgets');
-    }
-
-    validate() {
-        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('Budget ID is not valid');
-        if(typeof(this.jobNumber) !== 'number') throw new Error('Budget jobNumber is not valid');
-        if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('Budget jobID is not valid');
-        if(typeof(this.soldPrice) !== 'number') throw new Error('Budget soldPrice is not valid');
-        if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedHours is not valid');
-        if(typeof(this.expectedDump) !== 'number') throw new Error('Budget expectedDump is not valid');
-        if(typeof(this.expectedHours) !== 'number') throw new Error('Budget expectedExpenses is not valid');
     }
 
 }

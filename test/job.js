@@ -37,6 +37,7 @@ describe('Job.js Tests:', () => {
             if(job.budgetID !== jobObject.budgetID) throw new Error('Job Constructor failure - budgetID');
          
         });    
+        
     });
 
     describe('Job Validation Tests:', () => {

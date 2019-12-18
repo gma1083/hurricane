@@ -1,5 +1,5 @@
 const db = require('./database');
-const collectionName = 'Jobs';
+const jobsCollection = 'Jobs';
 const mongodb = require('mongodb');
 const Budget = require('./budget');
 
@@ -18,11 +18,15 @@ class Job {
 
     async save() {
         this.validate();
-        return db.insertOne(this, collectionName);
+        return db.insertOne(this, jobsCollection);
     }
 
-    static async findOne(query) {
-        return db.findOne(query, collectionName);
+    validate() {
+        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('JobID is not valid');
+        if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
+        if(!(this.addressID instanceof mongodb.ObjectID) && (this.addressID !== null)) throw new Error('Address is not valid');
+        if(!(this.clientID instanceof mongodb.ObjectID) && (this.clientID !== null)) throw new Error('Client is not valid');
+        if(!(this.budgetID instanceof mongodb.ObjectID) && (this.budgetID !== null)) throw new Error('Budget is not valid');
     }
 
     async delete() {
@@ -46,18 +50,37 @@ class Job {
         deleteResults.push(unlinkIncomesResult);
 
         //Deletes Job after unlinking all related objects in other collections
-        let deleteJobResult = await db.deleteOne({_id : this._id}, collectionName);
+        let deleteJobResult = await db.deleteOne({_id : this._id}, jobsCollection);
         deleteResults.push(deleteJobResult);
 
         return deleteResults;
     }
 
-    validate() {
-        if(!(this._id instanceof mongodb.ObjectID)) throw new Error('JobID is not valid');
-        if(typeof(this.jobNumber) !== 'number') throw new Error('Job Number is not valid');
-        if(!(this.addressID instanceof mongodb.ObjectID) && (this.addressID !== null)) throw new Error('Address is not valid');
-        if(!(this.clientID instanceof mongodb.ObjectID) && (this.clientID !== null)) throw new Error('Client is not valid');
-        if(!(this.budgetID instanceof mongodb.ObjectID) && (this.budgetID !== null)) throw new Error('Budget is not valid');
+    static async findOne(query) {
+        const jobData = await db.findOne(query, jobsCollection);
+        if(jobData !== null) {
+            const job = new Timesheet(jobData);
+            return job;
+        }
+        return jobData;
+    }
+
+    static async findById(jobID) {
+        if(!(jobID instanceof mongodb.ObjectID)) {
+            try{
+                jobID = new mongodb.ObjectID(jobID);
+            }
+            catch(error){
+                console.log(error);
+                return null;
+            }
+        }
+        const jobData = await db.findOne({_id : jobID}, jobsCollection);
+        if(jobData !== null) {
+            const job = new Timesheet(jobData);
+            return job;
+        }
+        return jobData;
     }
 
     async deleteBudget() {

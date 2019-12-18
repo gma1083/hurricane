@@ -70,10 +70,8 @@ block content
     if timesheet
         script.
             window.onload = function() {
-                    document.getElementById("jobNumber").defaultValue = "#{timesheet.jobNumber}";
-                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
-                    document.getElementById("estHours").defaultValue = "#{timesheet.estCrewHours}";
-                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
-                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
-                    document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+                document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
+                document.getElementById("jobNumber").defaultValue = "#{timesheet.jobNumber}";
+                document.getElementById("estHours").defaultValue = "#{timesheet.estCrewHours}";
+
             };

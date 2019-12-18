@@ -55,7 +55,6 @@ describe('Timesheet.js Tests:', () => {
 
         });
 
-
     });
 
     describe('Timesheet Save Tests:', () => {
@@ -149,26 +148,10 @@ describe('Timesheet.js Tests:', () => {
             const newTimesheet = await db.findOne({_id : timesheet._id}, collectionName);
             if(newTimesheet.yardsHauled === timesheetValues.yardsHauled) throw new Error('timesheet.updateOne() failed');
         });
+
     });
 
     describe('Timesheet Validation Tests:', () => {
-
-        let timesheetValues = {
-            _id : db.createMongoID(),
-            date : new Date(),
-            employeeID : db.createMongoID(),
-            jobNumber : 12345,
-            jobID : db.createMongoID(),
-            estCrewSize : 3,
-            estCrewHours : 8,
-            tmCrewSize : 0,
-            tmCrewHours : 0,
-            lunchTaken : true,
-            jobFinished : true,
-            offHauled : false,
-            yardsHauled : 0,
-            notes : 'Test Notes'
-        };
 
         it('Timesheet Validation - Happy Path', () => {
 
@@ -422,7 +405,7 @@ describe('Timesheet.js Tests:', () => {
             if(!(foundTimesheet instanceof Timesheet)) throw new Error('Timesheet.findById() return is not Instance of Timesheet');
         });
 
-        it('Timesheet.findById() Test - findById() with string ID', async () => {
+        it('Timesheet.findById() Test - Accepts & converts string for timesheet._id', async () => {
             const timesheetValues = {
                 _id : db.createMongoID(),
                 date : new Date(),
@@ -448,6 +431,64 @@ describe('Timesheet.js Tests:', () => {
             const foundTimesheet = await Timesheet.findById(stringID);
             if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() id string conversion failed');
         });
+
+        it('Timesheet.findById() Test - Giving an ID that cant be converted into an ObjectID', async () => {
+            const foundTimesheet = await Timesheet.findById("Hello");
+            if(foundTimesheet !== null) throw new Error('Timesheet.findById() failed given a bad string ID');
+        });
+
+        it('Timesheet.findOne() Test - Happy Path', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+    
+            const foundTimesheet = await Timesheet.findOne({_id : timesheet._id});
+            if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() failed');
+        });
+
+        it('Timesheet.findOne() Test - Returns Instance of Timesheet', async () => {
+            const timesheetValues = {
+                _id : db.createMongoID(),
+                date : new Date(),
+                employeeID : db.createMongoID(),
+                jobNumber : 12345,
+                jobID : db.createMongoID(),
+                estCrewSize : 3,
+                estCrewHours : 8,
+                tmCrewSize : 0,
+                tmCrewHours : 0,
+                lunchTaken : true,
+                jobFinished : true,
+                offHauled : false,
+                yardsHauled : 0,
+                notes : 'Test Notes'
+            };
+            const timesheet = new Timesheet(timesheetValues);
+            await timesheet.save();
+    
+            const foundTimesheet = await Timesheet.findOne({_id : timesheet._id});
+            if(!(foundTimesheet instanceof Timesheet)) throw new Error('Timesheet.findOne() return is not Instance of Timesheet');
+        });
+
+        it('Timesheet.findOne() Test - Returns null if timesheet not found', async () => {
+            const foundTimesheet = await Timesheet.findOne({_id : db.createMongoID()});
+            if(foundTimesheet !== null) throw new Error('Timesheet.findOne() should return null if no timesheet is found');
+        });   
 
     });
 
