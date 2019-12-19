@@ -1,10 +1,25 @@
 const database = require('../database');
 const Timesheet = require('../timesheet');
+const Employee = require('../employee');
+const Job = require('../job');
 const collectionName = 'TimeSheets';
 const mongodb = require('mongodb');
 
 async function insertTime(timeSheetData) {
-    const timesheet = new Timesheet(timeSheetData);
+    const timesheetValues = {};
+    const employeeID = (await Employee.findByName(timeSheetData.name))._id;
+    const job = await Job.findByNumber(timeSheetData.jobNumber);
+    let jobID = null;
+    if(job !== null) jobID = job._id;
+
+    Object.assign(timesheetValues, timeSheetData);
+
+    timesheetValues.date = new Date(timeSheetData.date);
+
+    timesheetValues.employeeID = employeeID;
+    timesheetValues.jobID = jobID;
+    
+    const timesheet = new Timesheet(timesheetValues);
     return timesheet.save();
 }
 

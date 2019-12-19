@@ -89,7 +89,7 @@ class Timesheet {
         if(!(this.date instanceof Date)) throw new Error('date is not valid');
         if(!(this.employeeID instanceof mongodb.ObjectID)) throw new Error('employeeID is not valid');
         if(typeof(this.jobNumber) !== 'number') throw new Error('jobNumber is not valid');
-        if(!(this.jobID instanceof mongodb.ObjectID)) throw new Error('jobID is not valid');
+        if(!(this.jobID instanceof mongodb.ObjectID) && this.jobID !== null) throw new Error('jobID is not valid');
         if(typeof(this.estCrewSize) !== 'number') throw new Error('estCrewSize is not valid');
         if(typeof(this.estCrewHours) !== 'number') throw new Error('estCrewHours is not valid');
         if(typeof(this.tmCrewSize) !== 'number') throw new Error('tmCrewSize is not valid');

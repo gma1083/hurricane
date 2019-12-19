@@ -1,11 +1,11 @@
 const db = require('./database.js');
 
 class Person {
-    constructor(firstName, lastName, birthDate) {
-        this._id = db.createMongoID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
+    constructor(personData) {
+        this._id = personData._id ? personData._id : db.createMongoID();
+        this.firstName = personData.firstName;
+        this.lastName = personData.lastName;
+        this.birthDate = personData.birthDate;
     }
 
     save() {

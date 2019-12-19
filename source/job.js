@@ -65,6 +65,15 @@ class Job {
         return jobData;
     }
 
+    static async findByNumber(jobNumber) {
+        const jobData = await db.findOne({jobNumber : jobNumber}, jobsCollection);
+        if(jobData !== null) {
+            const job = new Job(jobData);
+            return job;
+        }
+        return jobData;
+    }
+
     static async findById(jobID) {
         if(!(jobID instanceof mongodb.ObjectID)) {
             try{

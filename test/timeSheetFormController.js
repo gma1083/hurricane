@@ -20,6 +20,7 @@ describe('TimeSheetFormController Tests:', () => {
         const timesheetData = {
             _id : db.createMongoID(),
             date : new Date(),
+            name : "Michael Mecham",
             employeeID : db.createMongoID(),
             jobNumber : 12345,
             jobID : db.createMongoID(),

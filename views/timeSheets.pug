@@ -8,45 +8,35 @@ block content
     table(class = "table table-striped")
         thead(class = "thead-dark")
             th(scope = "col") Date
-            th(scope = "col") Foreman
+            th(scope = "col") Employee
             th(scope = "col") Job Number
-            th(scope = "col") Job Site
-            th(scope = "col") City
+            th(scope = "col") Job ID
             th(scope = "col") Estimate Crew
             th(scope = "col") Estiamte HOURS
             th(scope = "col") TM Crew
             th(scope = "col") TM HOURS
             th(scope = "col") Lunch?
             th(scope = "col") Done?
-            th(scope = "col") MD
-            th(scope = "col") DRC
-            th(scope = "col") CD
-            th(scope = "col") Other Hauling
+            th(scope = "col") Off-Hauled?
+            th(scope = "col") Yards Hauled?
             th(scope = "col") Notes
-            th(scope = "col") Problems
-            th(scope = "col") Questions
             th(scopt = 'col') Edit
             th(scopt = 'col') Delete
             each sheet in timeSheetsArray
                 tr#timeSheet_list_item   
                     td #{sheet.date}
-                    td #{sheet.foreman}
+                    td #{sheet.employeeID}
                     td #{sheet.jobNumber}
-                    td #{sheet.jobSite}
-                    td #{sheet.jobCity}
-                    td #{sheet.crewSizeEstimate}
-                    td #{sheet.hoursEstimate}
-                    td #{sheet.crewSizeTM}
-                    td #{sheet.hoursTM}
-                    td #{sheet.lunch}
-                    td #{sheet.done}
-                    td #{sheet.md}
-                    td #{sheet.drc}
-                    td #{sheet.cd}
-                    td #{sheet.otherHauling}
+                    td #{sheet.jobID}
+                    td #{sheet.estCrewSize}
+                    td #{sheet.estCrewHours}
+                    td #{sheet.tmCrewSize}
+                    td #{sheet.tmCrewHours}
+                    td #{sheet.lunchTaken}
+                    td #{sheet.jobFinished}
+                    td #{sheet.offHauled}
+                    td #{sheet.yardsHauled}
                     td #{sheet.notes}
-                    td #{sheet.problems}
-                    td #{sheet.questions}
                     td 
                         button(type="button", class="btn btn-info", onclick="editTimesheet(\"" +  sheet._id + "\")") Edit
                     td 

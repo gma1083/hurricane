@@ -244,6 +244,24 @@ describe('Job.js Tests:', () => {
 
         });
 
+        it('Job.findByNumbebr() - Happy Path', async () =>{
+
+            const jobObject = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobObject);
+            await job.save();
+
+            const foundJob = await Job.findByNumber(jobObject.jobNumber);
+            if(foundJob === null) throw new Error('Job.findByNumber() Failed');
+
+        });
+
         it('Job.findById() - Happy Path', async () => {
 
             const jobData = {
