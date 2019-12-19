@@ -8,4 +8,4 @@ async function returnForemen() {
 
 module.exports = {
     returnForemen,
-}
+};

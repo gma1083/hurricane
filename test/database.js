@@ -132,7 +132,7 @@ describe('Database.js Tests:', () => {
         });
 
 
-        describe('Database - Delete Tests:', function() {
+        describe('Database - Delete Tests:', () => {
 
             // Creates multiple documents for deletion testing
             before(async () => {       
@@ -155,14 +155,14 @@ describe('Database.js Tests:', () => {
             });
             
             // Tests deleting a single document matching _id from parameter
-            // it('deleteDocument Test', async function(){
+            // it('deleteDocument Test', async () => {
             //     const result = await db.deleteDocument(document2, collection);
             //     if(result.result.ok !== 1) throw new Error('deleteDocument test failed');
             // });
 
         });
 
-        describe('Database Find Tests:', function() {
+        describe('Database Find Tests:', () => {
 
             // Creates a single document used for find testing
             before(async () => {
@@ -224,7 +224,9 @@ describe('Database.js Tests:', () => {
                 const updateManyResult = await db.updateMany(testFilter, updateMany, collection);
                 if(updateManyResult.result.ok !== 1) throw new Error('updateMany test result.ok != 1');
             });
+
         });
+        
     });
 
 });

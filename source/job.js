@@ -77,7 +77,7 @@ class Job {
         }
         const jobData = await db.findOne({_id : jobID}, jobsCollection);
         if(jobData !== null) {
-            const job = new Timesheet(jobData);
+            const job = new Job(jobData);
             return job;
         }
         return jobData;

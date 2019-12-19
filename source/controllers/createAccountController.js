@@ -16,4 +16,4 @@ async function returnAccounts() {
 module.exports = {
     createAccount,
     returnAccounts,
-}
+};

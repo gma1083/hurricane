@@ -205,28 +205,105 @@ describe('Job.js Tests:', () => {
 
     describe('Job Find Tests:', () => {
 
-        describe('Job.findOne() Tests:', () => {
+        it('Job.findOne() - Happy Path', async () => {
+            const jobObject = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
 
-            it('Job.findOne() - Happy Path', async () => {
-                const jobObject = {
-                    _id : db.createMongoID(),
-                    jobNumber : 12345,
-                    addressID : null,
-                    clientID : null,
-                    budgetID : null        
-                };
-    
-                const job = new Job(jobObject);
-                await job.save();
+            const job = new Job(jobObject);
+            await job.save();
 
-                const foundJob = await Job.findOne({_id : jobObject._id});
-                if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job.findOne() failed - happy path');
-            });
+            const foundJob = await Job.findOne({_id : jobObject._id});
+            if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job.findOne() failed - happy path');
+        });
 
-            it('Job.findOne() - Job doesnt exist', async () => {
-                const foundJob = await Job.findOne({_id : new mongodb.ObjectID()});
-                if(foundJob !== null) throw new Error('Job.findOne() failed - Job found that shouldnt exist');
-            });
+        it('Job.findOne() - Job Job Doesnt Exist', async () => {
+            const foundJob = await Job.findOne({_id : new mongodb.ObjectID()});
+            if(foundJob !== null) throw new Error('Job.findOne() failed - Job found that shouldnt exist');
+        });
+
+        it('Job.findOne() - Returns Instance of Job', async () => {
+
+            const jobObject = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobObject);
+            await job.save();
+
+            const foundJob = await Job.findOne({_id : jobObject._id});
+            if(!(foundJob instanceof Job)) throw new Error("Job.findOne() didnt return an instance of Job");
+
+        });
+
+        it('Job.findById() - Happy Path', async () => {
+
+            const jobData = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobData);
+            await job.save();
+
+            const foundJob = await Job.findById(jobData._id);
+            if(!(foundJob._id.equals(jobData._id))) throw new Error('Job.findById failed');
+
+        });
+
+        it('Job.findById() - Job Doesnt Exist', async () => {
+
+            const foundJob = await Job.findById(db.createMongoID());
+            if(foundJob !== null) throw new Error('Job.findById failed finding job that doesnt exist');
+
+        });
+
+        it('Job.findById() - Returns Instance of Job', async () => {
+
+            const jobObject = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobObject);
+            await job.save();
+
+            const foundJob = await Job.findById(job._id);
+            if(!(foundJob instanceof Job)) throw new Error("Job.findOne() didnt return an instance of Job");
+
+        });
+
+        it('Job.findById() - Converts String IDs to ObjectIDs', async () => {
+
+            const jobObject = {
+                _id : db.createMongoID(),
+                jobNumber : 12345,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobObject);
+            await job.save();
+
+            const stringID = job._id.toHexString();
+
+            const foundJob = await Job.findById(stringID);
+            if(!(foundJob._id.equals(job._id))) throw new Error("Job.findOne() didnt return an instance of Job");
 
         });
 
@@ -261,6 +338,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
         });
+
     });
 
 });

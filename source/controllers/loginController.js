@@ -12,4 +12,4 @@ async function login(account) {
 
 module.exports = {
     login,
-}
+};

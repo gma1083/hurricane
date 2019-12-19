@@ -69,7 +69,7 @@ block content
 
     if timesheet
         script.
-            window.onload = function() {
+            window.onload = () => {
                 document.getElementById("estCrew").defaultValue = "#{timesheet.estCrewSize}";
                 document.getElementById("jobNumber").defaultValue = "#{timesheet.jobNumber}";
                 document.getElementById("estHours").defaultValue = "#{timesheet.estCrewHours}";
