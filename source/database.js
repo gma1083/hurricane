@@ -56,7 +56,7 @@ async function deleteMany(filter, collection) {
 
 // Database method to delete a specific document into a specified collection
 async function deleteDocument(document, collection) {
-    let docId = document._id;
+    const docId = document._id;
     return deleteOne({_id : docId}, collection);
 }
 

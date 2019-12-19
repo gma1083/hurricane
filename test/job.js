@@ -20,7 +20,7 @@ describe('Job.js Tests:', () => {
       
         it('Job Constructor - Happy Path', () => {
         
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -28,7 +28,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
 
             if(job._id !== jobObject._id) throw new Error('Job Constructor failure - jobID');
             if(job.jobNumber !== jobObject.jobNumber) throw new Error('Job Constructor failure - jobNumber');
@@ -37,14 +37,14 @@ describe('Job.js Tests:', () => {
             if(job.budgetID !== jobObject.budgetID) throw new Error('Job Constructor failure - budgetID');
          
         });    
-        
+
     });
 
     describe('Job Validation Tests:', () => {
 
         it('Job Validation - Happy Path', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -52,14 +52,14 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             await job.validate();
 
         });
 
         it('Job Validation - ID', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : "Not a Job ID",
                 jobNumber : 12345,
                 addressID : null,
@@ -67,7 +67,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             try{
                 await job.validate();
             }
@@ -79,7 +79,7 @@ describe('Job.js Tests:', () => {
 
         it('Job Validation - jobNumber', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : "Not a job number",
                 addressID : null,
@@ -87,7 +87,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             try{
                 await job.validate();
             }
@@ -99,7 +99,7 @@ describe('Job.js Tests:', () => {
 
         it('Job Validation - addressID', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : "123 Steiner Street",
@@ -107,7 +107,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             try{
                 await job.validate();
             }
@@ -119,7 +119,7 @@ describe('Job.js Tests:', () => {
 
         it('Job Validation - clientID', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -127,7 +127,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             try{
                 await job.validate();
             }
@@ -139,7 +139,7 @@ describe('Job.js Tests:', () => {
 
         it('Job Validation - budgetID', async () => {
            
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -147,7 +147,7 @@ describe('Job.js Tests:', () => {
                 budgetID : 12345        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             try{
                 await job.validate();
             }
@@ -163,7 +163,7 @@ describe('Job.js Tests:', () => {
 
         it('Job Save - Happy Path', async () => {
             
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -171,16 +171,16 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             await job.save();
 
-            let foundJob = await db.findOne({ _id : jobObject._id}, jobsCollection);
+            const foundJob = await db.findOne({ _id : jobObject._id}, jobsCollection);
             if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job save failed');
         });
 
         it('Job Save - Save Calls Validate', async () => {
             
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : "Try Me..",
                 addressID : null,
@@ -188,7 +188,7 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
         
             try{
                 await job.save();
@@ -208,7 +208,7 @@ describe('Job.js Tests:', () => {
         describe('Job.findOne() Tests:', () => {
 
             it('Job.findOne() - Happy Path', async () => {
-                let jobObject = {
+                const jobObject = {
                     _id : db.createMongoID(),
                     jobNumber : 12345,
                     addressID : null,
@@ -216,15 +216,15 @@ describe('Job.js Tests:', () => {
                     budgetID : null        
                 };
     
-                let job = new Job(jobObject);
+                const job = new Job(jobObject);
                 await job.save();
 
-                let foundJob = await Job.findOne({_id : jobObject._id});
+                const foundJob = await Job.findOne({_id : jobObject._id});
                 if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job.findOne() failed - happy path');
             });
 
             it('Job.findOne() - Job doesnt exist', async () => {
-                let foundJob = await Job.findOne({_id : new mongodb.ObjectID()});
+                const foundJob = await Job.findOne({_id : new mongodb.ObjectID()});
                 if(foundJob !== null) throw new Error('Job.findOne() failed - Job found that shouldnt exist');
             });
 
@@ -235,7 +235,7 @@ describe('Job.js Tests:', () => {
     describe('Job Delete Tests:', () => {
 
         it('Job Delete - Happy Path (No Budget)', async () => {
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,
@@ -243,17 +243,17 @@ describe('Job.js Tests:', () => {
                 budgetID : null        
             };
 
-            let job = new Job(jobObject);
+            const job = new Job(jobObject);
             await job.save();
 
             await job.delete();
 
-            let findDeletedJob = await Job.findOne({_id : job._id});
+            const findDeletedJob = await Job.findOne({_id : job._id});
             if(findDeletedJob !== null) throw new Error('Job Delete - Found job that should have been deleted');
         });
 
         it('Job Delete - Cant Find Job', async () => {
-            let jobObject = {
+            const jobObject = {
                 _id : db.createMongoID(),
                 jobNumber : 12345,
                 addressID : null,

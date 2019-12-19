@@ -1,5 +1,6 @@
 const db = require('../source/database');
 const timeSheetFormController = require('../source/controllers/timeSheetFormController');
+const Timesheet = require('../source/timesheet');
 
 describe('TimeSheetFormController Tests:', () => {
 
@@ -15,29 +16,27 @@ describe('TimeSheetFormController Tests:', () => {
 
 
     it('insertTime Test Foreman in DB', async () => {
-        let timeSheet = {
-            date : new Date('2019-11-06'),
-            foreman : 'Jose Ruiz'
-        };
-        let result = await timeSheetFormController.insertTime(timeSheet);
-        if(result.result.ok !== 1) throw new Error('insert Time failed');
-    });
-
-    it('insertTime Test Foreman NOT in DB', async () => {
-        let timeSheet = {
-            _id : db.createMongoID(),
-            name : 'Gregor', 
-            date : new Date('2019-11-06'),
-            hours : 8
-        };
-        try {
-            let result = await timeSheetFormController.insertTime(timeSheet);
-            return false;
-        }
-        catch(error) {
-            if(error.message !== 'Foreman Not Found') throw new Error('insertTime Test Foreman NOT in DB test failed: ' + error.message);
-        }
         
+        const timesheetData = {
+            _id : db.createMongoID(),
+            date : new Date(),
+            employeeID : db.createMongoID(),
+            jobNumber : 12345,
+            jobID : db.createMongoID(),
+            estCrewSize : 3,
+            estCrewHours : 8,
+            tmCrewSize : 0,
+            tmCrewHours : 0,
+            lunchTaken : true,
+            jobFinished : true,
+            offHauled : false,
+            yardsHauled : 0,
+            notes : 'Test Notes'
+        };
+
+        await timeSheetFormController.insertTime(timesheetData);
+        const timesheet = await Timesheet.findById(timesheetData._id);
+        if(timesheet === null) throw new Error('timesheetFormController insertTime failed');
     });
 
 });

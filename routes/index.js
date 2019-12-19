@@ -99,13 +99,13 @@ router.get('/Jobs', async function(req, res, next) {
 });
 
 router.get('/api/foremen', async (req, res, next) => {
-  let foremenArray = await foremenController.returnForemen();
+  const foremenArray = await foremenController.returnForemen();
   res.json(foremenArray);
 });
 
 router.get('/reddit', async (req, res, next) => {
-  let httpsResult = await https.get("https://www.reddit.com/r/news/new.json?limit=1");
-  let result = {data : JSON.stringify(httpsResult, null, 2)};
+  const httpsResult = await https.get("https://www.reddit.com/r/news/new.json?limit=1");
+  const result = {data : JSON.stringify(httpsResult, null, 2)};
   res.render('reddit', result);
 });
 

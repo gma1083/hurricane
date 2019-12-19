@@ -61,7 +61,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Save - Happy Path', async () => {
             
-            let timesheetValues = {
+            const timesheetValues = {
                 _id : db.createMongoID(),
                 date : new Date(),
                 employeeID : db.createMongoID(),
@@ -77,10 +77,10 @@ describe('Timesheet.js Tests:', () => {
                 yardsHauled : 0,
                 notes : 'Test Notes'
             };
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             await timesheet.save();
 
-            let foundTimesheet = await db.findOne({ _id : timesheet._id}, collectionName);
+            const foundTimesheet = await db.findOne({ _id : timesheet._id}, collectionName);
             if(!(foundTimesheet._id.equals(timesheetValues._id))) throw new Error('Timesheet save failed');
         });
 
@@ -91,7 +91,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Delete - Happy Path', async () => {
 
-            let timesheetValues = {
+            const timesheetValues = {
                 _id : db.createMongoID(),
                 date : new Date(),
                 employeeID : db.createMongoID(),
@@ -108,11 +108,11 @@ describe('Timesheet.js Tests:', () => {
                 notes : 'Test Notes'
             };
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
 
             await timesheet.save();
 
-            let deletedPromise = await timesheet.delete();
+            const deletedPromise = await timesheet.delete();
             if(!(deletedPromise.result.ok === 1 && deletedPromise.result.n === 1)) throw new Error('Timesheet Delete - timesheet.delete() failed');
 
 
@@ -153,16 +153,33 @@ describe('Timesheet.js Tests:', () => {
 
     describe('Timesheet Validation Tests:', () => {
 
+        const timesheetValues = {
+            _id : db.createMongoID(),
+            date : new Date(),
+            employeeID : db.createMongoID(),
+            jobNumber : 12345,
+            jobID : db.createMongoID(),
+            estCrewSize : 3,
+            estCrewHours : 8,
+            tmCrewSize : 0,
+            tmCrewHours : 0,
+            lunchTaken : true,
+            jobFinished : true,
+            offHauled : false,
+            yardsHauled : 0,
+            notes : 'Test Notes'
+        };
+
         it('Timesheet Validation - Happy Path', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.validate();
 
         });
 
         it('Timesheet Validation - _id', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet._id = 'Not Valid ID';
             try{
                 timesheet.validate();
@@ -177,7 +194,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - date', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.date = 'Not Valid Date';
             try{
                 timesheet.validate();
@@ -191,7 +208,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - employeeID', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.employeeID = 'Not Valid ID';
             try{
                 timesheet.validate();
@@ -205,7 +222,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - jobNumber', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.jobNumber = 'Not Valid Number';
             try{
                 timesheet.validate();
@@ -219,7 +236,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - jobID', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.jobID = 'Not Valid ID';
             try{
                 timesheet.validate();
@@ -233,7 +250,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - estCrewSize', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.estCrewSize = 'Not Valid Number';
             try{
                 timesheet.validate();
@@ -247,7 +264,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - estCrewHours', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.estCrewHours = 'Not Valid Number';
             try{
                 timesheet.validate();
@@ -261,7 +278,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - tmCrewSize', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.tmCrewSize = 'Not Valid Number';
             try{
                 timesheet.validate();
@@ -275,7 +292,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - tmCrewHours', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.tmCrewHours = 'Not Valid Number';
             try{
                 timesheet.validate();
@@ -289,7 +306,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - lunchTaken', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.lunchTaken = 'Not Valid Boolean';
             try{
                 timesheet.validate();
@@ -303,7 +320,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - jobFinished', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.jobFinished = 'Not Valid Boolean';
             try{
                 timesheet.validate();
@@ -317,7 +334,7 @@ describe('Timesheet.js Tests:', () => {
 
         it('Timesheet Validation - offHauled', () => {
 
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.offHauled = 'Not Valid Boolean';
             try{
                 timesheet.validate();
@@ -330,7 +347,7 @@ describe('Timesheet.js Tests:', () => {
         });
 
         it('Timesheet Validation - yardsHauled', () => {
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.yardsHauled = 'Not Valid Number';
             try {
                 timesheet.validate();
@@ -342,7 +359,7 @@ describe('Timesheet.js Tests:', () => {
         });
 
         it('Timesheet Validation - notes', () => {
-            let timesheet = new Timesheet(timesheetValues);
+            const timesheet = new Timesheet(timesheetValues);
             timesheet.notes =  true;
             try {
                 timesheet.validate();

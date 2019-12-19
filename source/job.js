@@ -34,23 +34,23 @@ class Job {
         let deleteResults = [];
 
         //Delete the budget (if any) associated with this job
-        let deleteBudgetResult = await this.deleteBudget();
+        const deleteBudgetResult = await this.deleteBudget();
         deleteResults.push(deleteBudgetResult);
 
         //Sets JobID field to null for all timesheets (if any) associated with this job
-        let unlinkTimesheetsResult = await this.unlinkTimesheets();
+        const unlinkTimesheetsResult = await this.unlinkTimesheets();
         deleteResults.push(unlinkTimesheetsResult);
 
         //Sets JobID field to null for all expenses (if any) associated with this job
-        let unlinkExpensesResult = await this.unlinkExpenses();
+        const unlinkExpensesResult = await this.unlinkExpenses();
         deleteResults.push(unlinkExpensesResult);
 
         //Sets JobID field to null for all incomes (if any) associated with this job
-        let unlinkIncomesResult = await this.unlinkIncomes();
+        const unlinkIncomesResult = await this.unlinkIncomes();
         deleteResults.push(unlinkIncomesResult);
 
         //Deletes Job after unlinking all related objects in other collections
-        let deleteJobResult = await db.deleteOne({_id : this._id}, jobsCollection);
+        const deleteJobResult = await db.deleteOne({_id : this._id}, jobsCollection);
         deleteResults.push(deleteJobResult);
 
         return deleteResults;
@@ -59,7 +59,7 @@ class Job {
     static async findOne(query) {
         const jobData = await db.findOne(query, jobsCollection);
         if(jobData !== null) {
-            const job = new Timesheet(jobData);
+            const job = new Job(jobData);
             return job;
         }
         return jobData;
@@ -85,8 +85,8 @@ class Job {
 
     async deleteBudget() {
         if(this.budgetID !== null) {
-            let budget = await Budget.findOne({_id : this.budgetID});
-            let deleteBudgetPromise = await budget.delete();
+            const budget = await Budget.findOne({_id : this.budgetID});
+            const deleteBudgetPromise = await budget.delete();
             return deleteBudgetPromise;
         }
         return null;
@@ -94,7 +94,7 @@ class Job {
 
     async unlinkTimesheets() {
         if(this.timeSheets.length !== 0) {
-            let unlinkTimesheetsResult = db.updateMany({_id : {$in : this.timesheets}}, { $set: { jobId : null} }, 'Timesheets');
+            const unlinkTimesheetsResult = db.updateMany({_id : {$in : this.timesheets}}, { $set: { jobId : null} }, 'Timesheets');
             return unlinkTimesheetsResult;
         }
         return null;
@@ -102,7 +102,7 @@ class Job {
 
     async unlinkExpenses() {
         if(this.expenses !== null) {
-            let unlinkExpensesResult = db.updateMany({_id : {$in : this.expenses}}, { $set: { jobId : null} }, 'Expenses');
+            const unlinkExpensesResult = db.updateMany({_id : {$in : this.expenses}}, { $set: { jobId : null} }, 'Expenses');
             return unlinkExpensesResult;
         }
         return null;
@@ -110,7 +110,7 @@ class Job {
 
     async unlinkIncomes() {
         if(this.incomes !== null) {
-            let unlinkIncomesResult = db.updateMany({_id : {$in : this.incomes}}, { $set: { jobId : null} }, 'Incomes');
+            const unlinkIncomesResult = db.updateMany({_id : {$in : this.incomes}}, { $set: { jobId : null} }, 'Incomes');
             return unlinkIncomesResult;
         }
         return null;
