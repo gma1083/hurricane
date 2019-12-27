@@ -65,6 +65,26 @@ class Job {
         return jobData;
     }
 
+    static async jobNumToId(jobNumber) {
+        try {
+            const jobId = (await Job.findByNumber(jobNumber))._id;
+            return jobId;
+        }
+        catch(error) {
+            return null;
+        }
+    }
+
+    static async IdToJobNum(jobID) {
+        try {
+            const jobNumber = (await Job.findById(jobID)).jobNumber;
+            return jobNumber;
+        }
+        catch(error) {
+            return null;
+        }
+    }
+
     static async findByNumber(jobNumber) {
         const jobData = await db.findOne({jobNumber : jobNumber}, jobsCollection);
         if(jobData !== null) {

@@ -51,6 +51,16 @@ class Employee extends Person {
         return employeeData;
     }
 
+    static async nameToId(name) {
+        try {
+            const employeeId = (await Employee.findByName(name))._id;
+            return employeeId;
+        }
+        catch(error) {
+            return null
+        }
+    }
+
     static async findByName(name) {
         const regNameMatch = name.match(/[A-Za-z]+/g);
         const firstNameReg = regNameMatch[0];

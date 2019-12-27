@@ -373,5 +373,50 @@ describe('Job.js Tests:', () => {
 
     });
 
+    describe('Job Conversion Tests:', () => {
+
+        it('Job.jobNumToId() - Returns ID for Job in DB', async () => {
+            const jobData = {
+                _id : db.createMongoID(),
+                jobNumber : 12121,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobData);
+            await job.save();
+
+            const jobID = await Job.jobNumToId(job.jobNumber);
+            if(!(jobID.equals(job._id))) throw new Error('Job.jobNumToId() - Should have returned ID');
+            await job.delete();
+
+        });
+
+        it('Job.jobNumToId() - Returns Null When Job Is Not In DB', async () => {
+            const jobID = await Job.jobNumToId(25000);
+            if(jobID !== null) throw new Error('Job.jobNumToId() - Should have returned Null');
+        });
+
+        it('Job.IdToJobNum() - Returns jobNumber For Job in DB', async () => {
+            const jobData = {
+                _id : db.createMongoID(),
+                jobNumber : 12567,
+                addressID : null,
+                clientID : null,
+                budgetID : null        
+            };
+
+            const job = new Job(jobData);
+            await job.save();
+
+            const jobNumber = await Job.IdToJobNum(job._id);
+            if(jobNumber !== job.jobNumber) throw new Error('Job.IdToJobNum() - Should have returned jobNumber');
+            await job.delete();
+
+        });
+
+    });
+
 });
     

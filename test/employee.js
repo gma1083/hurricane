@@ -122,4 +122,39 @@ describe('Employee.js Tests:', () => {
 
     });
 
+    describe('Employee Conversion Tests:', () => {
+
+        it('Employee.nameToId() - Returns ID From Name In DB', async () => {
+
+            const employeeData = {
+                _id : db.createMongoID(),
+                firstName : "Thork",
+                lastName : "Mortan",
+                birthDate : new Date(),
+                position : "Foreman",
+                wage : 100,
+                employeeNumber : 50,
+                hireDate : new Date()
+            };
+
+            const employee = new Employee(employeeData);
+            await employee.save();
+            const employeeName = employeeData.firstName + " " + employeeData.lastName;
+
+            const employeeID = await Employee.nameToId(employeeName);
+
+            if(!(employeeID.equals(employee._id))) throw new Error('Employee.nameToId() should have returned ID');
+            await employee.delete();
+
+        });
+
+        it('Employee.nameToId() - Returns Null When Employee Not In DB', async () => {
+
+            const employeeID = await Employee.nameToId("Mickey Mouse");
+            if(employeeID !== null) throw new Error('Employee.nameToId() should have returned null');
+
+        });
+
+    });
+
 });

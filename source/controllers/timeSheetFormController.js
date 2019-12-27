@@ -7,7 +7,7 @@ const mongodb = require('mongodb');
 
 async function insertTime(timeSheetData) {
     const timesheetValues = {};
-    const employeeID = (await Employee.findByName(timeSheetData.name))._id;
+    const employeeID = await Employee.nameToId(timeSheetData.name);
     const job = await Job.findByNumber(timeSheetData.jobNumber);
     let jobID = null;
     if(job !== null) jobID = job._id;
