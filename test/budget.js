@@ -62,6 +62,7 @@ describe('Budget.js Tests:', () => {
            
             const foundBudget = await db.findOne({_id : budget._id}, budgetCollection);
             if(!(foundBudget._id.equals(budgetObject._id))) throw new Error('Budget Save Failed');
+            await budget.delete();
         });
 
         it('budget.save() - Save Calls Validate()', async () => {
@@ -84,6 +85,8 @@ describe('Budget.js Tests:', () => {
             catch(error){
                 if(error.message !== 'Budget jobNumber is not valid') throw new Error('Budget Save does not call validate');
             }
+
+            await budget.delete();
             
         });
 
@@ -115,6 +118,8 @@ describe('Budget.js Tests:', () => {
 
             const modifiedJob = await db.findOne({_id : job._id}, 'Jobs');
             if(!(budget._id.equals(modifiedJob.budgetID))) throw new Error('Budget Save doesnt modify job.budgetID');
+            await job.delete();
+            await budget.delete();
 
         });
 
@@ -173,6 +178,7 @@ describe('Budget.js Tests:', () => {
 
             const foundJob = await Job.findOne({_id : job._id});
             if(foundJob.budgetID !== null) throw new Error('Budget delete() does not remove itself from its Job');
+            await job.delete();
         });
 
         it('Budget.delete() - Happy Path', async () => {
@@ -225,6 +231,7 @@ describe('Budget.js Tests:', () => {
 
             const foundJob = await Job.findOne({_id : job._id});
             if(foundJob.budgetID !== null) throw new Error('Budget static delete() does not remove itself from its Job');
+            await job.delete();
         });
 
     });
@@ -248,6 +255,7 @@ describe('Budget.js Tests:', () => {
 
             const foundBudget = await Budget.findOne({_id : budget._id});
             if(!(budget._id.equals(foundBudget._id))) throw new Error('Budget.findOne() failed');
+            await budget.delete();
 
         });
 
@@ -267,6 +275,7 @@ describe('Budget.js Tests:', () => {
 
             const foundBudget = await Budget.findById(budget._id);
             if(!(budget._id.equals(foundBudget._id))) throw new Error('Budget.findById() failed');
+            await budget.delete();
 
         });
 
@@ -291,6 +300,7 @@ describe('Budget.js Tests:', () => {
             await budget.updateOne({ $set: { soldPrice : 2000}});
             const newBudget = await Budget.findById(budget._id);
             if(newBudget.soldPrice === budget.soldPrice) throw new Error('budget.updateOne() failed');
+            await budget.delete();
 
         });
 
@@ -309,6 +319,7 @@ describe('Budget.js Tests:', () => {
 
             const updateResult = await budget.updateOne({ $set: {soldPrice : 2000}});
             if(updateResult.result.nModified !== 0) throw new Error('budget.updateOne() modified more than 0 budgets');
+            await budget.delete();
         });
 
     });

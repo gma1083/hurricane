@@ -92,6 +92,10 @@ class Job {
         return jobData;
     }
 
+    static async findAll() {
+        return db.find({}, jobsCollection);
+    }
+
     async deleteBudget() {
         if(this.budgetID !== null) {
             const budget = await Budget.findOne({_id : this.budgetID});

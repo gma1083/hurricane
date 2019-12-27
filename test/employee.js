@@ -66,6 +66,7 @@ describe('Employee.js Tests:', () => {
 
             const foundEmployee = await db.findOne({ _id : employee._id}, employeeCollection);
             if(!(foundEmployee._id.equals(employee._id))) throw new Error('employee.save() failed');
+            await employee.delete();
 
         });
 
@@ -92,6 +93,7 @@ describe('Employee.js Tests:', () => {
 
             const foundEmployee = await Employee.findById(employeeData._id);
             if(!(foundEmployee._id.equals(employee._id))) throw new Error('Employee.findById() failed');
+            await employee.delete();
 
         });
 
@@ -114,6 +116,7 @@ describe('Employee.js Tests:', () => {
             const employeeName = employeeData.firstName + " " + employeeData.lastName;
             const foundEmployee = await Employee.findByName(employeeName);
             if(foundEmployee.firstName !== employee.firstName && foundEmployee.lastName !== employee.lastName) throw new Error('Employee.findByName() failed');
+            await employee.delete();
 
         });
 

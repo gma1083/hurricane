@@ -4,6 +4,7 @@ const https = require('https');
 
 const timeSheetFormController = require('../source/controllers/timeSheetFormController');
 const timeSheetsController = require('../source/controllers/timeSheetsController');
+const jobsController = require('../source/controllers/jobsController');
 const foremenController = require('../source/controllers/foremenController');
 const createAccountController = require('../source/controllers/createAccountController');
 const loginController = require('../source/controllers/loginController');
@@ -93,9 +94,15 @@ router.post('/timeSheets/edit/:timeSheetsID', async function(req, res, next) {
     res.redirect('/');
 });
 
-router.get('/Jobs', async function(req, res, next) {
+router.get('/jobs', async function(req, res, next) {
   const jobsArray = await jobsController.returnJobs();
   res.render('jobs', {title : 'Jobs', jobsArray : jobsArray});
+});
+
+router.get('/jobs/delete/:jobID', async function (req, res) {
+  const jobID = req.params.jobID;
+  await jobsController.deleteJob(jobID);
+  res.redirect('/jobs');
 });
 
 router.get('/api/foremen', async (req, res, next) => {

@@ -25,10 +25,10 @@ block content
                     td #{job.budgetID}
                     td #{job.incomes}
                     td 
-                        button(type="button", class="btn btn-danger", onclick="deleteJob(\"" +  sheet._id + "\")") Delete
+                        button(type="button", class="btn btn-danger", onclick="deleteJob(\"" +  job._id + "\")") Delete
 
     script.
-        function deleteJob(timesheet_id) {
-            window.location = '/Jobs/delete/' + timesheet_id;
+        function deleteJob(job_id) {
+            window.location = '/Jobs/delete/' + job_id;
         }
                     

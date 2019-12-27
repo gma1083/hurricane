@@ -82,6 +82,7 @@ describe('Timesheet.js Tests:', () => {
 
             const foundTimesheet = await db.findOne({ _id : timesheet._id}, collectionName);
             if(!(foundTimesheet._id.equals(timesheetValues._id))) throw new Error('Timesheet save failed');
+            await timesheet.delete();
         });
 
     });
@@ -115,6 +116,8 @@ describe('Timesheet.js Tests:', () => {
             const deletedPromise = await timesheet.delete();
             if(!(deletedPromise.result.ok === 1 && deletedPromise.result.n === 1)) throw new Error('Timesheet Delete - timesheet.delete() failed');
 
+            await timesheet.delete();
+
 
 
         });
@@ -147,6 +150,8 @@ describe('Timesheet.js Tests:', () => {
             await timesheet.updateOne();
             const newTimesheet = await db.findOne({_id : timesheet._id}, collectionName);
             if(newTimesheet.yardsHauled === timesheetValues.yardsHauled) throw new Error('timesheet.updateOne() failed');
+
+            await timesheet.delete();
         });
 
     });
@@ -396,6 +401,8 @@ describe('Timesheet.js Tests:', () => {
     
             const foundTimesheet = await Timesheet.findById(timesheet._id);
             if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() failed');
+
+            await timesheet.delete();
         });
 
         it('Timesheet.findById() Test - Find Returns Instance of Timesheet', async () => {
@@ -420,6 +427,8 @@ describe('Timesheet.js Tests:', () => {
     
             const foundTimesheet = await Timesheet.findById(timesheet._id);
             if(!(foundTimesheet instanceof Timesheet)) throw new Error('Timesheet.findById() return is not Instance of Timesheet');
+
+            await timesheet.delete();
         });
 
         it('Timesheet.findById() Test - Accepts & converts string for timesheet._id', async () => {
@@ -447,6 +456,8 @@ describe('Timesheet.js Tests:', () => {
 
             const foundTimesheet = await Timesheet.findById(stringID);
             if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() id string conversion failed');
+
+            await timesheet.delete();
         });
 
         it('Timesheet.findById() Test - Giving an ID that cant be converted into an ObjectID', async () => {
@@ -476,6 +487,8 @@ describe('Timesheet.js Tests:', () => {
     
             const foundTimesheet = await Timesheet.findOne({_id : timesheet._id});
             if(!(foundTimesheet._id.equals(timesheet._id))) throw new Error('Timesheet.findById() failed');
+
+            await timesheet.delete();
         });
 
         it('Timesheet.findOne() Test - Returns Instance of Timesheet', async () => {
@@ -500,6 +513,8 @@ describe('Timesheet.js Tests:', () => {
     
             const foundTimesheet = await Timesheet.findOne({_id : timesheet._id});
             if(!(foundTimesheet instanceof Timesheet)) throw new Error('Timesheet.findOne() return is not Instance of Timesheet');
+
+            await timesheet.delete();
         });
 
         it('Timesheet.findOne() Test - Returns null if timesheet not found', async () => {

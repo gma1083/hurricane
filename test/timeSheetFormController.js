@@ -32,12 +32,13 @@ describe('TimeSheetFormController Tests:', () => {
             jobFinished : true,
             offHauled : false,
             yardsHauled : 0,
-            notes : 'Test Notes'
+            notes : 'Wasssaapppppp'
         };
 
         await timeSheetFormController.insertTime(timesheetData);
         const timesheet = await Timesheet.findById(timesheetData._id);
         if(timesheet === null) throw new Error('timesheetFormController insertTime failed');
+        await timesheet.delete();
     });
 
 });

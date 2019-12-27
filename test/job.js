@@ -53,7 +53,7 @@ describe('Job.js Tests:', () => {
             };
 
             const job = new Job(jobObject);
-            await job.validate();
+            job.validate();
 
         });
 
@@ -69,7 +69,7 @@ describe('Job.js Tests:', () => {
 
             const job = new Job(jobObject);
             try{
-                await job.validate();
+                job.validate();
             }
             catch(error){
                 if(error.message !== 'JobID is not valid') throw new Error('jobID validation failed') ;
@@ -89,7 +89,7 @@ describe('Job.js Tests:', () => {
 
             const job = new Job(jobObject);
             try{
-                await job.validate();
+                job.validate();
             }
             catch(error){
                 if(error.message !== 'Job Number is not valid') throw new Error('jobNumber validation failed') ;
@@ -109,7 +109,7 @@ describe('Job.js Tests:', () => {
 
             const job = new Job(jobObject);
             try{
-                await job.validate();
+                job.validate();
             }
             catch(error){
                 if(error.message !== 'Address is not valid') throw new Error('jobAddress validation failed') ;
@@ -129,7 +129,7 @@ describe('Job.js Tests:', () => {
 
             const job = new Job(jobObject);
             try{
-                await job.validate();
+                job.validate();
             }
             catch(error){
                 if(error.message !== 'Client is not valid') throw new Error('jobClient validation failed') ;
@@ -149,7 +149,7 @@ describe('Job.js Tests:', () => {
 
             const job = new Job(jobObject);
             try{
-                await job.validate();
+                job.validate();
             }
             catch(error){
                 if(error.message !== 'Budget is not valid') throw new Error('jobBudget validation failed') ;
@@ -176,6 +176,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await db.findOne({ _id : jobObject._id}, jobsCollection);
             if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job save failed');
+            await job.delete();
         });
 
         it('Job Save - Save Calls Validate', async () => {
@@ -198,6 +199,7 @@ describe('Job.js Tests:', () => {
                 if(error.message !== 'Job Number is not valid') throw new Error('Job Save does not call validate');
             }
             
+            await job.delete();
 
         });
 
@@ -219,6 +221,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findOne({_id : jobObject._id});
             if(!(foundJob._id.equals(jobObject._id))) throw new Error('Job.findOne() failed - happy path');
+            await job.delete();
         });
 
         it('Job.findOne() - Job Job Doesnt Exist', async () => {
@@ -241,6 +244,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findOne({_id : jobObject._id});
             if(!(foundJob instanceof Job)) throw new Error("Job.findOne() didnt return an instance of Job");
+            await job.delete();
 
         });
 
@@ -259,6 +263,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findByNumber(jobObject.jobNumber);
             if(foundJob === null) throw new Error('Job.findByNumber() Failed');
+            await job.delete();
 
         });
 
@@ -277,6 +282,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findById(jobData._id);
             if(!(foundJob._id.equals(jobData._id))) throw new Error('Job.findById failed');
+            await job.delete();
 
         });
 
@@ -302,6 +308,7 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findById(job._id);
             if(!(foundJob instanceof Job)) throw new Error("Job.findOne() didnt return an instance of Job");
+            await job.delete();
 
         });
 
@@ -322,6 +329,13 @@ describe('Job.js Tests:', () => {
 
             const foundJob = await Job.findById(stringID);
             if(!(foundJob._id.equals(job._id))) throw new Error("Job.findOne() didnt return an instance of Job");
+            await job.delete();
+
+        });
+
+        it('Job.findAll() - Happy Path', async () => {
+
+
 
         });
 

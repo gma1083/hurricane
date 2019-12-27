@@ -39,7 +39,7 @@ block content
                     input(id='jobFinished',type="text", class="form-control", name="jobFinished")
                 div.input
                     span.label Off-Hauled?   
-                    input(id='offHauled',type="checkbox", class="form-control", name="offHauled")
+                    input(id='offHauled',type="checkbox", class="form-control", name="offHauled", value="offHauled")
                 div.input
                     span.label Yards Hauled  
                     input(id='yardsHauled',type="number", class="form-control", name="yardsHauled")
@@ -61,6 +61,8 @@ block content
                 document.getElementById("tmCrewHours").defaultValue = "#{timesheet.tmCrewHours}";
                 document.getElementById("lunchTaken").defaultValue = "#{timesheet.lunchTaken}";
                 document.getElementById("jobFinished").defaultValue = "#{timesheet.jobFinished}";
+                console.log("#timesheet.offhauled");
+                document.getElementById("offHauled").checked = "#{timesheet.offHauled}";
                 document.getElementById("yardsHauled").defaultValue = "#{timesheet.yardsHauled}";
                 document.getElementById("notes").defaultValue = "#{timesheet.notes}";
                 
