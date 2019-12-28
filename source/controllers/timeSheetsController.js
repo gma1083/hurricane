@@ -1,10 +1,9 @@
 const db = require('../database');
 const Timesheet = require('../timesheet');
-const collection = 'TimeSheets';
-const mongodb = require('mongodb');
+const timesheetCollection = 'TimeSheets';
 
 async function returnTimeSheets() {
-    return db.find({}, collection);
+    return db.find({}, timesheetCollection);
 }
 
 async function deleteTimeSheet(timeSheetID) {
