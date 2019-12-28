@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+    br
+
+    div(class = "container" )
+        form(class = "form", name="jobForm", method="post")
+            div(class = "form-group")
+                div.input
+                    span.label Job Number   
+                    input(id='jobNumber',type="number", class="form-control", name="jobNumber")
+                div.input
+                    span.label Address
+                    input(id='estCrewSize',type="text", class="form-control", name="address")
+                div.input
+                    span.label Client  
+                    input(id='estCrewHours',type="text", class="form-control", name="client")
+                div.actions
+                    input(id='submit',type="submit", class="btn btn-primary", value="Submit")
+
+    if job
+        script.
+            window.onload = () => {
+                console.log("#{job}");
+                document.getElementById("jobNumber").defaultValue = "#{job.jobNumber}";
+                document.getElementById("address").defaultValue = "#{job.address}";
+                document.getElementById("client").defaultValue = "#{job.client}";
+            };

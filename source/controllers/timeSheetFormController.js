@@ -1,21 +1,16 @@
-const database = require('../database');
 const Timesheet = require('../timesheet');
 const Employee = require('../employee');
 const Job = require('../job');
-const collectionName = 'TimeSheets';
 const mongodb = require('mongodb');
 
 async function insertTime(timeSheetData) {
     const timesheetValues = {};
     const employeeID = await Employee.nameToId(timeSheetData.name);
-    const job = await Job.findByNumber(timeSheetData.jobNumber);
-    let jobID = null;
-    if(job !== null) jobID = job._id;
+    const jobID = await Job.jobNumToId(timeSheetData.jobNumber);
 
     Object.assign(timesheetValues, timeSheetData);
 
     timesheetValues.date = new Date(timeSheetData.date);
-
     timesheetValues.employeeID = employeeID;
     timesheetValues.jobID = jobID;
     
@@ -25,7 +20,6 @@ async function insertTime(timeSheetData) {
 
 async function updateTimesheet(timeSheetData) {
     timeSheetData._id = new mongodb.ObjectID(timeSheetData._id);
-    
     const timesheet = new Timesheet(timeSheetData);
     await timesheet.updateOne();
 }
